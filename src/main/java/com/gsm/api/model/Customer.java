@@ -1,7 +1,5 @@
 package com.gsm.api.model;
 
-import org.springframework.cglib.core.Local;
-
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.time.*;
@@ -16,21 +14,24 @@ public class Customer extends User{
         this.purchases = purchases;
     }
 
-//    public List<Billable> activeWarranties() {
-//        List<Billable> warranties = new ArrayList<>();
-//
-//        for (Map.Entry<Billable, LocalDate> purchase : purchases.entrySet()) {
-//            if (ChronoUnit.YEARS.between(purchase.getValue(), LocalDate.now()) < Billable.warranty) {
-//                warranties.add(purchase.getKey());
-//            }
-//        }
-//
-//        return warranties;
-//    }
+    public List<Billable> activeWarranties() {
+        List<Billable> warranties = new ArrayList<>();
+
+        for (Map.Entry<Billable, LocalDate> purchase : purchases.entrySet()) {
+            if (purchase.getKey() instanceof Warrantable w) {
+                if (ChronoUnit.YEARS.between(purchase.getValue(), LocalDate.now()) < w.calculateWarranty()
+                        && w.calculateWarranty() != 0) {
+                    warranties.add(purchase.getKey());
+                }
+            }
+        }
+
+        return warranties;
+    }
 
     //gettere
-    public Map<Billable, LocalDate> getPurchases() {return this.purchases;};
+    public Map<Billable, LocalDate> getPurchases() {return this.purchases;}
 
     //settere
-    public void setPurchases(Billable item, LocalDate date) {this.purchases.put(item, date);};
+    public void setPurchases(Billable item, LocalDate date) {this.purchases.put(item, date);}
 }

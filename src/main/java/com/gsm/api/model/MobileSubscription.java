@@ -42,7 +42,7 @@ public class MobileSubscription extends TelecomService{
             addOn = addOn + 3;
         }
         if (hasRoaming == true) {
-            serviceCost = this.getPrice() * 2;
+            serviceCost = serviceCost * 2;
         }
 
         serviceCost = serviceCost + addOn;
