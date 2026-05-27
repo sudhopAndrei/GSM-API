@@ -20,10 +20,10 @@ public abstract class TelecomService implements Billable {
 
     //gettere
     public String getName() {return this.name;}
-    public int getPrice() {return this.price;};
-    public int getContractLength() {return this.contractLength;};
+    public int getPrice() {return this.price;}
+    public int getContractLength() {return this.contractLength;}
 
     //setter
-    public void setPrice(int price) {this.price = price;};
-    public void setContractLength(int contractLength) {this.contractLength = contractLength;};
+    public void setPrice(int price) {this.price = price;}
+    public void setContractLength(int contractLength) {this.contractLength = contractLength;}
 }

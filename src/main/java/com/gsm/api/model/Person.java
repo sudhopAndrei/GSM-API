@@ -8,9 +8,9 @@ public class Person extends Customer {
     private String IBAN;
     private int loyaltyPoints;
 
-    public Person(int IDUser, String name, String email, String phoneNumber, LocalDate joinDate,
+    public Person(int userID, String name, String email, String phoneNumber, LocalDate joinDate,
                   String CNP, String IBAN) {
-        super(IDUser, name, email, phoneNumber, joinDate);
+        super(userID, name, email, phoneNumber, joinDate);
 
         this.CNP = CNP;
         this.IBAN = IBAN;
@@ -22,5 +22,5 @@ public class Person extends Customer {
     }
 
     //getters
-    public int getLoyaltyPoints() {return this.loyaltyPoints;};
+    public int getLoyaltyPoints() {return this.loyaltyPoints;}
 }

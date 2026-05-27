@@ -7,9 +7,9 @@ import java.time.*;
 public abstract class Customer extends User{
     private Map<Billable, LocalDate> purchases = new HashMap<>();
 
-    public Customer(int IDUser, String name, String email, String phoneNumber, LocalDate joinDate) {
+    public Customer(int userID, String name, String email, String phoneNumber, LocalDate joinDate) {
 
-        super(IDUser, name, email, phoneNumber, joinDate);
+        super(userID, name, email, phoneNumber, joinDate);
     }
 
     public List<Billable> activeWarranties() {

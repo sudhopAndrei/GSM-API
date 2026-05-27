@@ -7,10 +7,10 @@ public class Company extends Customer {
     private final String cui;
     private String representativeName;
 
-    public Company (int IDUser, String name, String email, String phoneNumber, LocalDate joinDate,
+    public Company (int userID, String name, String email, String phoneNumber, LocalDate joinDate,
                     String cui, String representativeName) {
 
-        super(IDUser, name, email, phoneNumber, joinDate);
+        super(userID, name, email, phoneNumber, joinDate);
 
         this.cui = cui;
         this.representativeName = representativeName;
