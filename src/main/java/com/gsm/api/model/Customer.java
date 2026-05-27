@@ -27,7 +27,7 @@ public abstract class Customer extends User{
         return warranties;
     }
 
-    //adauga achizitii
+    //adauga achizitii + puncte bonus
     public void addPurchase(Billable item, LocalDate date) {
         this.purchases.put(item, date);
 
