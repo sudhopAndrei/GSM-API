@@ -4,14 +4,12 @@ import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.time.*;
 
-public class Customer extends User{
+public abstract class Customer extends User{
     private Map<Billable, LocalDate> purchases = new HashMap<>();
 
-    public Customer(int IDUser, String name, String email, String phoneNumber, LocalDate joinDate,
-             Map<Billable, LocalDate> purchases) {
+    public Customer(int IDUser, String name, String email, String phoneNumber, LocalDate joinDate) {
 
         super(IDUser, name, email, phoneNumber, joinDate);
-        this.purchases = purchases;
     }
 
     public List<Billable> activeWarranties() {
@@ -29,9 +27,23 @@ public class Customer extends User{
         return warranties;
     }
 
+    //adauga achizitii
+    public void addPurchase(Billable item, LocalDate date) {
+        this.purchases.put(item, date);
+
+        if (this instanceof Person p) {
+            if (item.calculateCost() > 5) {
+                ((Person) this).addLoyaltyPoints(100);
+            }
+            if (item.calculateCost() > 15) {
+                ((Person) this).addLoyaltyPoints(300);
+            }
+            if (item.calculateCost() > 30) {
+                ((Person) this).addLoyaltyPoints(500);
+            }
+        }
+    }
+
     //gettere
     public Map<Billable, LocalDate> getPurchases() {return this.purchases;}
-
-    //settere
-    public void setPurchases(Billable item, LocalDate date) {this.purchases.put(item, date);}
 }

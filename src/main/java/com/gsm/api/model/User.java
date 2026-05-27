@@ -1,12 +1,9 @@
 package com.gsm.api.model;
 
 import java.time.temporal.ChronoUnit;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-
 import java.time.*;
 
-public class User {
+public abstract class User {
     private final int IDUser;
     private String name;
     private String email;

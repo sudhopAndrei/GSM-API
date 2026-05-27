@@ -1,11 +1,14 @@
 package com.gsm.api.model;
 
+import java.time.temporal.ChronoUnit;
+
 public class InternetSubscription extends TelecomService implements Warrantable{
     private int downloadSpeedMbps;
     private int uploadSpeedMbps;
     private boolean isFiberOptic;
     private boolean hasRouter;
 
+    //pentru serviciu cu pret fix
     public InternetSubscription(String name, int contractLength, int price,
                                 int downloadSpeedMbps, int uploadSpeedMbps, boolean isFiberOptic, boolean hasRouter) {
 
@@ -51,6 +54,14 @@ public class InternetSubscription extends TelecomService implements Warrantable{
 
     @Override
     public int calculateWarranty() {
-        return 1;
+        int warrantyMonths = 0;
+        if (isFiberOptic == true) {
+            warrantyMonths = Math.max(warrantyMonths, 6);
+        }
+        if (hasRouter == true) {
+            warrantyMonths = Math.max(warrantyMonths, 24);
+        }
+
+        return warrantyMonths;
     }
 }
