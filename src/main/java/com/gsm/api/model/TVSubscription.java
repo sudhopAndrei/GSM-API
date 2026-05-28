@@ -1,6 +1,6 @@
 package com.gsm.api.model;
 
-public class TVSubscription extends TelecomService {
+public class TVSubscription extends TelecomSubscription {
     private int numberOfChannels;
     private boolean hasHDChannels;
     private boolean hasStreamingService;

@@ -1,8 +1,6 @@
 package com.gsm.api.model;
 
-import java.time.temporal.ChronoUnit;
-
-public class InternetSubscription extends TelecomService implements Warrantable{
+public class InternetSubscription extends TelecomSubscription implements Warrantable{
     private int downloadSpeedMbps;
     private int uploadSpeedMbps;
     private boolean isFiberOptic;

@@ -6,10 +6,12 @@ import java.time.*;
 
 public abstract class Customer extends User{
     private Map<Billable, LocalDate> purchases = new HashMap<>();
+    private double penalties;
 
     public Customer(int userID, String name, String email, String phoneNumber, LocalDate joinDate) {
 
         super(userID, name, email, phoneNumber, joinDate);
+        this.penalties = 0;
     }
 
     public List<Billable> activeWarranties() {
@@ -32,18 +34,14 @@ public abstract class Customer extends User{
         this.purchases.put(item, date);
 
         if (this instanceof Person p) {
-            if (item.calculateCost() > 5) {
-                ((Person) this).addLoyaltyPoints(100);
-            }
-            if (item.calculateCost() > 15) {
-                ((Person) this).addLoyaltyPoints(300);
-            }
-            if (item.calculateCost() > 30) {
-                ((Person) this).addLoyaltyPoints(500);
-            }
+            ((Person) this).addLoyaltyPoints(item.calculateCost() * 10);
         }
     }
 
     //gettere
     public Map<Billable, LocalDate> getPurchases() {return this.purchases;}
+    public double getPenalties() {return this.penalties;}
+
+    //settere
+    public void setPenalties(int penalties) {this.penalties = penalties;}
 }

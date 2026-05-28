@@ -1,6 +1,6 @@
 package com.gsm.api.model;
 
-public class MobileSubscription extends TelecomService{
+public class MobileSubscription extends TelecomSubscription {
     private int nationalMinutes;
     private int networkGB;
     private int internationalMinutes;

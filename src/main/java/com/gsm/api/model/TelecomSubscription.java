@@ -1,18 +1,18 @@
 package com.gsm.api.model;
 
-public abstract class TelecomService implements Billable {
+public abstract class TelecomSubscription implements Billable {
     private final String name;
     private int contractLength;
+    private int price;
 
-    private int price = 2;
-
-    protected TelecomService(String name, int contractLength) {
+    protected TelecomSubscription(String name, int contractLength) {
         this.name = name;
         this.contractLength = contractLength;
+        this.price = 2;
     }
 
     //pentru serviciu cu pret dat
-    protected TelecomService(String name, int contractLength, int price) {
+    protected TelecomSubscription(String name, int contractLength, int price) {
         this.name = name;
         this.contractLength = contractLength;
         this.price = price;
