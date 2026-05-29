@@ -1,6 +1,6 @@
 package com.gsm.api.model;
 
-public class InternetSubscription extends TelecomSubscription implements Warrantable{
+public class InternetSubscription extends TelecomSubscription implements Warrantable {
     private int downloadSpeedMbps;
     private int uploadSpeedMbps;
     private boolean isFiberOptic;

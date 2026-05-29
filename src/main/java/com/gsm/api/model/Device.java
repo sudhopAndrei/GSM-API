@@ -1,6 +1,6 @@
 package com.gsm.api.model;
 
-public abstract class Device implements Billable, Warrantable{
+public abstract class Device implements Billable, Warrantable {
     private final int deviceID;
     private String name;
     private int price;

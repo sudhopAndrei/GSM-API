@@ -70,4 +70,7 @@ public class BillingService {
         }
         return discountPercentage;
     }
+
+    //calculeaza discount ul pentru angajat in functie de vechime
+
 }
