@@ -6,10 +6,10 @@ public class MobileSubscription extends TelecomSubscription {
     private int internationalMinutes;
     private boolean hasRoaming;
 
-    public MobileSubscription(String name, int contractLength,
+    public MobileSubscription(int subscriptionID, String name, int contractLength,
                        int nationalMinutes, int networkGB, int internationalMinutes, boolean hasRoaming) {
 
-        super(name, contractLength);
+        super(subscriptionID, name, contractLength);
         this.nationalMinutes = nationalMinutes;
         this.networkGB = networkGB;
         this.internationalMinutes = internationalMinutes;
@@ -17,10 +17,10 @@ public class MobileSubscription extends TelecomSubscription {
     }
 
     //pentru serviciu cu pret dat
-    public MobileSubscription(String name, int contractLength, int price,
+    public MobileSubscription(int subscriptionID, String name, int contractLength, int price,
                        int nationalMinutes, int networkGB, int internationalMinutes, boolean hasRoaming) {
 
-        super(name, price, contractLength);
+        super(subscriptionID, name, price, contractLength);
         this.nationalMinutes = nationalMinutes;
         this.networkGB = networkGB;
         this.internationalMinutes = internationalMinutes;

@@ -7,20 +7,20 @@ public class InternetSubscription extends TelecomSubscription implements Warrant
     private boolean hasRouter;
 
     //pentru serviciu cu pret fix
-    public InternetSubscription(String name, int contractLength, int price,
+    public InternetSubscription(int subscriptionID, String name, int contractLength, int price,
                                 int downloadSpeedMbps, int uploadSpeedMbps, boolean isFiberOptic, boolean hasRouter) {
 
-        super(name, contractLength, price);
+        super(subscriptionID, name, contractLength, price);
         this.downloadSpeedMbps = downloadSpeedMbps;
         this.uploadSpeedMbps = uploadSpeedMbps;
         this.isFiberOptic = isFiberOptic;
         this.hasRouter = hasRouter;
     }
 
-    public InternetSubscription(String name, int contractLength,
+    public InternetSubscription(int subscriptionID, String name, int contractLength,
                                 int downloadSpeedMbps, int uploadSpeedMbps, boolean isFiberOptic, boolean hasRouter) {
 
-        super(name, contractLength);
+        super(subscriptionID, name, contractLength);
         this.downloadSpeedMbps = downloadSpeedMbps;
         this.uploadSpeedMbps = uploadSpeedMbps;
         this.isFiberOptic = isFiberOptic;

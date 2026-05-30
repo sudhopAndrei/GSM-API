@@ -38,12 +38,12 @@ public class BillingService {
     }
 
     //calculul penalizarii in cazul anularii unui abonament
-    public int cancellationPenalty(Customer customer, String identifier) {
+    public int cancellationPenalty(Customer customer, int subscriptionID) {
         int penaltyCost = 0;
 
         for (Map.Entry<Billable, LocalDate> purchase : customer.getPurchases().entrySet()) {
             if (purchase.getKey() instanceof TelecomSubscription subscription) {
-                if (subscription.getName().equals(identifier)) {
+                if (subscription.getSubscriptionID() == subscriptionID) {
                     int remainingPeriod = subscription.getContractLength() - (int) ChronoUnit.MONTHS.between(purchase.getValue(), LocalDate.now());
 
                     if (remainingPeriod > 0) {

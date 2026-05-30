@@ -30,6 +30,7 @@ public abstract class Customer extends User{
 
     //gettere
     public Map<Billable, LocalDate> getPurchases() {return this.purchases;}
+    public Map<Billable, Integer> getExtendedWarranties() {return this.extendedWarranties;}
     public double getPenalties() {return this.penalties;}
 
     //settere

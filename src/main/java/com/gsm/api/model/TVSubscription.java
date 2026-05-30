@@ -5,20 +5,20 @@ public class TVSubscription extends TelecomSubscription {
     private boolean hasHDChannels;
     private boolean hasStreamingService;
 
-    public TVSubscription(String name, int contractLength,
+    public TVSubscription(int subscriptionID, String name, int contractLength,
                           int numberOfChannels, boolean hasHDChannels, boolean hasStreamingService) {
 
-        super(name, contractLength);
+        super(subscriptionID, name, contractLength);
         this.numberOfChannels = numberOfChannels;
         this.hasHDChannels = hasHDChannels;
         this.hasStreamingService = hasStreamingService;
     }
 
     //pentru serviciu cu pret dat
-    public TVSubscription(String name, int contractLength, int price,
+    public TVSubscription(int subscriptionID, String name, int contractLength, int price,
                           int numberOfChannels, boolean hasHDChannels, boolean hasStreamingService) {
 
-        super(name, price, contractLength);
+        super(subscriptionID, name, price, contractLength);
         this.numberOfChannels = numberOfChannels;
         this.hasHDChannels = hasHDChannels;
         this.hasStreamingService = hasStreamingService;

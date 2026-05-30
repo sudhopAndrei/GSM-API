@@ -4,15 +4,12 @@ import java.time.LocalDate;
 import java.util.Map;
 
 public class Person extends Customer {
-    private final String CNP;
     private String IBAN;
     private int loyaltyPoints;
 
-    public Person(int userID, String name, String email, String phoneNumber, LocalDate joinDate,
-                  String CNP, String IBAN) {
+    public Person(int userID, String name, String email, String phoneNumber, LocalDate joinDate, String IBAN) {
         super(userID, name, email, phoneNumber, joinDate);
 
-        this.CNP = CNP;
         this.IBAN = IBAN;
     }
 

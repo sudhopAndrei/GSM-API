@@ -15,8 +15,11 @@ public class WarrantyService {
 
         for (Map.Entry<Billable, LocalDate> purchase : customer.getPurchases().entrySet()) {
             if (purchase.getKey() instanceof Warrantable w) {
-                if (ChronoUnit.YEARS.between(purchase.getValue(), LocalDate.now()) < w.calculateWarranty()
-                        && w.calculateWarranty() != 0) {
+                long monthsPassed = ChronoUnit.MONTHS.between(purchase.getValue(), LocalDate.now());
+                int baseWarrantyMonths = w.calculateWarranty();
+                int extendedMonths = customer.getExtendedWarranties().getOrDefault(purchase.getKey(), 0);
+
+                if (baseWarrantyMonths != 0 && monthsPassed < (baseWarrantyMonths + extendedMonths)) {
                     warranties.add(purchase.getKey());
                 }
             }
@@ -26,14 +29,14 @@ public class WarrantyService {
     }
 
     //extindem garantia unui produs cu un numar de luni
-    public void extendedWarranty(Customer customer, String identifier, int monthsExtended) {
+    public void extendedWarranty(Customer customer, int itemIdentifier, int monthsExtended) {
         for (Map.Entry<Billable, LocalDate> purchase : customer.getPurchases().entrySet()) {
             Billable item = purchase.getKey();
             if (item instanceof Warrantable) {
-                if (item instanceof Device device && device.getName().equals(identifier)) {
+                if (item instanceof Device device && device.getDeviceID() == itemIdentifier) {
                     customer.addWarrantyExtension(device, monthsExtended);
                     break;
-                } else if (item instanceof InternetSubscription subscription && subscription.getName().equals(identifier)) {
+                } else if (item instanceof InternetSubscription subscription && subscription.getSubscriptionID() == itemIdentifier) {
                     customer.addWarrantyExtension(subscription, monthsExtended);
                     break;
                 }
@@ -41,4 +44,40 @@ public class WarrantyService {
         }
     }
 
+    //anuleaza o garantie
+    public void cancelWarranty(Customer customer, int itemIdentifier) {
+        for (Map.Entry<Billable, LocalDate> purchase : customer.getPurchases().entrySet()) {
+            Billable item = purchase.getKey();
+            if (item instanceof Warrantable) {
+                if ((item instanceof Device device && device.getDeviceID() == itemIdentifier) ||
+                        (item instanceof InternetSubscription subscription && subscription.getSubscriptionID() == itemIdentifier)) {
+                    customer.addWarrantyExtension(item, -100000);
+                    break;
+                }
+            }
+        }
+    }
+
+    // returneaza numarul de luni ramase din garantie sau -1 daca a expirat
+    public int remainingWarrantyMonths(Customer customer, int itemIdentifier) {
+        for (Map.Entry<Billable, LocalDate> purchase : customer.getPurchases().entrySet()) {
+            Billable item = purchase.getKey();
+            if (item instanceof Warrantable w) {
+                if ((item instanceof Device device && device.getDeviceID() == itemIdentifier) ||
+                        (item instanceof InternetSubscription subscription && subscription.getSubscriptionID() == itemIdentifier)) {
+                    
+                    int baseWarrantyMonths = w.calculateWarranty();
+                    long monthsPassed = ChronoUnit.MONTHS.between(purchase.getValue(), LocalDate.now());
+                    int extendedMonths = customer.getExtendedWarranties().getOrDefault(item, 0);
+                    
+                    int remaining = (int) (baseWarrantyMonths + extendedMonths - monthsPassed);
+                    if (remaining > 0) {
+                        return remaining;
+                    }
+                    break;
+                }
+            }
+        }
+        return -1;
+    }
 }
