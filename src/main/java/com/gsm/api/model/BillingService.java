@@ -9,7 +9,7 @@ public class BillingService {
     private BillingService() {};
 
     //calculul facturii lunare
-    public double recurringMonthlyBill (Customer customer) {
+    public static double recurringMonthlyBill (Customer customer) {
         double totalCost = 0;
 
         for (Map.Entry<Billable, LocalDate> purchase : customer.getPurchases().entrySet()) {
@@ -24,7 +24,7 @@ public class BillingService {
     }
 
     //calculul achizitiilor one-time in ultima luna (30 de zile)
-    public double lastMonthBill (Customer customer) {
+    public static double lastMonthBill (Customer customer) {
         double totalCost = 0;
 
         for (Map.Entry<Billable, LocalDate> purchase : customer.getPurchases().entrySet()) {
@@ -38,7 +38,7 @@ public class BillingService {
     }
 
     //calculul penalizarii in cazul anularii unui abonament
-    public int cancellationPenalty(Customer customer, int subscriptionID) {
+    public static int cancellationPenalty(Customer customer, int subscriptionID) {
         int penaltyCost = 0;
 
         for (Map.Entry<Billable, LocalDate> purchase : customer.getPurchases().entrySet()) {
@@ -57,8 +57,11 @@ public class BillingService {
         return penaltyCost;
     }
 
+
+    // de aici in jos mutat in CUSTOMER ca functie pt polimorfism
+
     //calculeaza discount ul pentru device uri pe baza punctelor (va fi apelat doar la cumpararea device urilor)
-    public int calculateDiscount(Customer customer) {
+    public static int calculateDiscount(Customer customer) {
         int discountPercentage = 0;
 
         if (customer instanceof Person p) {

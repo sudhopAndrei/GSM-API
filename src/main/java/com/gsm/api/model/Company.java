@@ -1,5 +1,7 @@
 package com.gsm.api.model;
 
+import org.springframework.cglib.core.Local;
+
 import java.time.LocalDate;
 import java.util.Map;
 
@@ -12,4 +14,11 @@ public class Company extends Customer {
 
         this.representativeName = representativeName;
     }
+
+    public void addPurchase(Billable item, LocalDate date) {
+        this.purchases.put(item, date);
+    }
+
+    //getter
+    public String getRepresentativeName() {return this.representativeName;}
 }

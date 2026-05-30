@@ -20,7 +20,7 @@ public class MobileSubscription extends TelecomSubscription {
     public MobileSubscription(int subscriptionID, String name, int contractLength, int price,
                        int nationalMinutes, int networkGB, int internationalMinutes, boolean hasRoaming) {
 
-        super(subscriptionID, name, price, contractLength);
+        super(subscriptionID, name, contractLength, price);
         this.nationalMinutes = nationalMinutes;
         this.networkGB = networkGB;
         this.internationalMinutes = internationalMinutes;

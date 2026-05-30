@@ -11,6 +11,13 @@ public class Person extends Customer {
         super(userID, name, email, phoneNumber, joinDate);
 
         this.IBAN = IBAN;
+        this.loyaltyPoints = 0;
+    }
+
+    //adauga achizita + puncte bonus
+    public void addPurchase(Billable item, LocalDate date) {
+        this.purchases.put(item, date);
+        this.addLoyaltyPoints(item.calculateCost() * 10);
     }
 
     //adauga puncte

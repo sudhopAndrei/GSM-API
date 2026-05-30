@@ -18,7 +18,7 @@ public class TVSubscription extends TelecomSubscription {
     public TVSubscription(int subscriptionID, String name, int contractLength, int price,
                           int numberOfChannels, boolean hasHDChannels, boolean hasStreamingService) {
 
-        super(subscriptionID, name, price, contractLength);
+        super(subscriptionID, name, contractLength, price);
         this.numberOfChannels = numberOfChannels;
         this.hasHDChannels = hasHDChannels;
         this.hasStreamingService = hasStreamingService;

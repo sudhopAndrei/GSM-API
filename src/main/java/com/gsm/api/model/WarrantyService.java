@@ -10,7 +10,7 @@ public class WarrantyService {
     private WarrantyService() {};
 
     //produse cu garantie activa pentru un client
-    public List<Billable> activeWarranties(Customer customer) {
+    public static List<Billable> activeWarranties(Customer customer) {
         List<Billable> warranties = new ArrayList<>();
 
         for (Map.Entry<Billable, LocalDate> purchase : customer.getPurchases().entrySet()) {
@@ -29,7 +29,7 @@ public class WarrantyService {
     }
 
     //extindem garantia unui produs cu un numar de luni
-    public void extendedWarranty(Customer customer, int itemIdentifier, int monthsExtended) {
+    public static void extendedWarranty(Customer customer, int itemIdentifier, int monthsExtended) {
         for (Map.Entry<Billable, LocalDate> purchase : customer.getPurchases().entrySet()) {
             Billable item = purchase.getKey();
             if (item instanceof Warrantable) {
@@ -45,7 +45,7 @@ public class WarrantyService {
     }
 
     //anuleaza o garantie
-    public void cancelWarranty(Customer customer, int itemIdentifier) {
+    public static void cancelWarranty(Customer customer, int itemIdentifier) {
         for (Map.Entry<Billable, LocalDate> purchase : customer.getPurchases().entrySet()) {
             Billable item = purchase.getKey();
             if (item instanceof Warrantable) {
@@ -59,7 +59,7 @@ public class WarrantyService {
     }
 
     // returneaza numarul de luni ramase din garantie sau -1 daca a expirat
-    public int remainingWarrantyMonths(Customer customer, int itemIdentifier) {
+    public static int remainingWarrantyMonths(Customer customer, int itemIdentifier) {
         for (Map.Entry<Billable, LocalDate> purchase : customer.getPurchases().entrySet()) {
             Billable item = purchase.getKey();
             if (item instanceof Warrantable w) {

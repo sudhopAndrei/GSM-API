@@ -18,7 +18,8 @@ public abstract class User {
         this.joinDate = joinDate;
     }
 
-    long calculateTenure() {
+    //vechimea angajatului / clientului
+    public long calculateTenure() {
         return ChronoUnit.YEARS.between(joinDate, LocalDate.now());
     }
 
