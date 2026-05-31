@@ -1,14 +1,13 @@
 package com.gsm.api.model.purchases;
 
 import com.gsm.api.model.interfaces.Billable;
-import org.springframework.cglib.core.Local;
 
 import java.time.LocalDate;
 
 public class Purchase {
-    private final int purchaseID;
-    private final Billable item;
-    private final LocalDate date;
+    private int purchaseID;
+    private Billable item;
+    private LocalDate date;
 
     public Purchase(int purchaseID, Billable item, LocalDate date) {
         this.purchaseID = purchaseID;

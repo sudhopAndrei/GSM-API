@@ -20,5 +20,5 @@ public class Employee extends User {
 
     //settere
     public void setRole(String role) {this.role = role;}
-    public void setSalary(int role) {this.salary = salary;}
+    public void setSalary(int salary) {this.salary = salary;}
 }
