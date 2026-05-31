@@ -2,6 +2,7 @@ package com.gsm.api.service;
 
 import com.gsm.api.model.devices.Device;
 import com.gsm.api.model.interfaces.Billable;
+import com.gsm.api.model.purchases.Purchase;
 import com.gsm.api.model.subscriptions.TelecomSubscription;
 import com.gsm.api.model.users.Customer;
 import com.gsm.api.model.users.Person;
@@ -17,11 +18,11 @@ public class BillingService {
     public static double recurringMonthlyBill (Customer customer) {
         double totalCost = 0;
 
-        for (Map.Entry<Billable, LocalDate> purchase : customer.getPurchases().entrySet()) {
-            if (purchase.getKey() instanceof TelecomSubscription &&
-                    ChronoUnit.MONTHS.between(purchase.getValue(), LocalDate.now()) <
-                            ((TelecomSubscription) purchase.getKey()).getContractLength()) {
-                totalCost = totalCost + purchase.getKey().calculateCost();
+        for (Purchase purchase : customer.getPurchases()) {
+            if (purchase.getItem() instanceof TelecomSubscription &&
+                    ChronoUnit.MONTHS.between(purchase.getDate(), LocalDate.now()) <
+                            (((TelecomSubscription) purchase.getItem()).getContractLength())) {
+                totalCost = totalCost + purchase.getItem().calculateCost();
             }
         }
 
@@ -32,10 +33,10 @@ public class BillingService {
     public static double lastMonthBill (Customer customer) {
         double totalCost = 0;
 
-        for (Map.Entry<Billable, LocalDate> purchase : customer.getPurchases().entrySet()) {
-            if (purchase.getKey() instanceof Device &&
-                    ChronoUnit.DAYS.between(purchase.getValue(), LocalDate.now()) < 30) {
-                totalCost = totalCost + purchase.getKey().calculateCost();
+        for (Purchase purchase : customer.getPurchases()) {
+            if (purchase.getItem() instanceof Device &&
+                    ChronoUnit.DAYS.between(purchase.getDate(), LocalDate.now()) < 30) {
+                totalCost = totalCost + purchase.getItem().calculateCost();
             }
         }
 
@@ -46,10 +47,10 @@ public class BillingService {
     public static int cancellationPenalty(Customer customer, int subscriptionID) {
         int penaltyCost = 0;
 
-        for (Map.Entry<Billable, LocalDate> purchase : customer.getPurchases().entrySet()) {
-            if (purchase.getKey() instanceof TelecomSubscription subscription) {
+        for (Purchase purchase : customer.getPurchases()) {
+            if (purchase.getItem() instanceof TelecomSubscription subscription) {
                 if (subscription.getSubscriptionID() == subscriptionID) {
-                    int remainingPeriod = subscription.getContractLength() - (int) ChronoUnit.MONTHS.between(purchase.getValue(), LocalDate.now());
+                    int remainingPeriod = subscription.getContractLength() - (int) ChronoUnit.MONTHS.between(purchase.getDate(), LocalDate.now());
 
                     if (remainingPeriod > 0) {
                         penaltyCost = (remainingPeriod * subscription.calculateCost()) / 2;

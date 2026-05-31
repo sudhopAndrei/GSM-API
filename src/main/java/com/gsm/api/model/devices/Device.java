@@ -23,4 +23,14 @@ public abstract class Device implements Billable, Warrantable {
     public int getDeviceID() {return this.deviceID;}
     public String getName() {return this.name;}
     public int getPrice() {return this.price;}
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Device d)) return false;
+        return this.deviceID == d.deviceID;
+    }
+
+    @Override
+    public int hashCode() { return Integer.hashCode(deviceID); }
 }

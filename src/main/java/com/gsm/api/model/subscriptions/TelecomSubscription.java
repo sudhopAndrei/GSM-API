@@ -28,4 +28,14 @@ public abstract class TelecomSubscription implements Billable {
     //setter
     public void setPrice(int price) {this.price = price;}
     public void setContractLength(int contractLength) {this.contractLength = contractLength;}
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof TelecomSubscription d)) return false;
+        return this.subscriptionID == d.subscriptionID;
+    }
+
+    @Override
+    public int hashCode() { return Integer.hashCode(subscriptionID); }
 }

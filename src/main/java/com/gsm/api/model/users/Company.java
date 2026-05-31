@@ -1,6 +1,7 @@
 package com.gsm.api.model.users;
 
 import com.gsm.api.model.interfaces.Billable;
+import com.gsm.api.model.purchases.Purchase;
 
 import java.time.LocalDate;
 
@@ -14,8 +15,8 @@ public class Company extends Customer {
         this.representativeName = representativeName;
     }
 
-    public void addPurchase(Billable item, LocalDate date) {
-        this.purchases.put(item, date);
+    public void addPurchase(Purchase purchase) {
+        this.purchases.add(purchase);
     }
 
     //getter

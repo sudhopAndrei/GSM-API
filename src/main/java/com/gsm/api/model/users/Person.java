@@ -1,7 +1,6 @@
 package com.gsm.api.model.users;
 
-import com.gsm.api.model.interfaces.Billable;
-
+import com.gsm.api.model.purchases.Purchase;
 import java.time.LocalDate;
 
 public class Person extends Customer {
@@ -16,9 +15,9 @@ public class Person extends Customer {
     }
 
     //adauga achizita + puncte bonus
-    public void addPurchase(Billable item, LocalDate date) {
-        this.purchases.put(item, date);
-        this.addLoyaltyPoints(item.calculateCost() * 10);
+    public void addPurchase(Purchase purchase) {
+        this.purchases.add(purchase);
+        this.addLoyaltyPoints(purchase.getItem().calculateCost() * 10);
     }
 
     //adauga puncte

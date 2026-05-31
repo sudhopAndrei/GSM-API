@@ -1,12 +1,13 @@
 package com.gsm.api.model.users;
 
 import com.gsm.api.model.interfaces.Billable;
+import com.gsm.api.model.purchases.Purchase;
 
 import java.util.*;
 import java.time.*;
 
 public abstract class Customer extends User{
-    protected Map<Billable, LocalDate> purchases = new HashMap<>();
+    protected List<Purchase> purchases = new ArrayList<>();
     private Map<Billable, Integer> extendedWarranties = new HashMap<>();
     private double penalties;
 
@@ -17,14 +18,14 @@ public abstract class Customer extends User{
     }
 
     //adauga achizitii
-    public abstract void addPurchase(Billable item, LocalDate date);
+    public abstract void addPurchase(Purchase purchase);
 
     public void addWarrantyExtension(Billable item, int monthsExtended) {
         this.extendedWarranties.put(item, monthsExtended);
     }
 
     //gettere
-    public Map<Billable, LocalDate> getPurchases() {return Map.copyOf(this.purchases);}
+    public List<Purchase> getPurchases() {return List.copyOf(purchases);}
     public Map<Billable, Integer> getExtendedWarranties() {return Map.copyOf(this.extendedWarranties);}
     public double getPenalties() {return this.penalties;}
 
