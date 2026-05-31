@@ -1,4 +1,10 @@
-package com.gsm.api.model;
+package com.gsm.api.service;
+
+import com.gsm.api.model.devices.Device;
+import com.gsm.api.model.interfaces.Billable;
+import com.gsm.api.model.interfaces.Warrantable;
+import com.gsm.api.model.subscriptions.InternetSubscription;
+import com.gsm.api.model.users.Customer;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;

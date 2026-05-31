@@ -1,4 +1,4 @@
-package com.gsm.api.model;
+package com.gsm.api.model.subscriptions;
 
 public class MobileSubscription extends TelecomSubscription {
     private int nationalMinutes;
@@ -6,25 +6,19 @@ public class MobileSubscription extends TelecomSubscription {
     private int internationalMinutes;
     private boolean hasRoaming;
 
-    public MobileSubscription(int subscriptionID, String name, int contractLength,
-                       int nationalMinutes, int networkGB, int internationalMinutes, boolean hasRoaming) {
-
-        super(subscriptionID, name, contractLength);
-        this.nationalMinutes = nationalMinutes;
-        this.networkGB = networkGB;
-        this.internationalMinutes = internationalMinutes;
-        this.hasRoaming = hasRoaming;
-    }
-
-    //pentru serviciu cu pret dat
     public MobileSubscription(int subscriptionID, String name, int contractLength, int price,
-                       int nationalMinutes, int networkGB, int internationalMinutes, boolean hasRoaming) {
+                              int nationalMinutes, int networkGB, int internationalMinutes, boolean hasRoaming) {
 
         super(subscriptionID, name, contractLength, price);
         this.nationalMinutes = nationalMinutes;
         this.networkGB = networkGB;
         this.internationalMinutes = internationalMinutes;
         this.hasRoaming = hasRoaming;
+    }
+
+    public MobileSubscription(int subscriptionID, String name, int contractLength,
+                       int nationalMinutes, int networkGB, int internationalMinutes, boolean hasRoaming) {
+        this(subscriptionID, name, contractLength, 2, nationalMinutes, networkGB, internationalMinutes, hasRoaming);
     }
 
     @Override

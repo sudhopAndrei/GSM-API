@@ -1,25 +1,21 @@
-package com.gsm.api.model;
+package com.gsm.api.model.devices;
 
 public class MobilePhone extends Device{
     private final int storageSpace;
     private final String color;
     private final boolean hasESim;
 
-    public MobilePhone(int deviceID, String name,
-                       int storageSpace, String color, boolean hasESim) {
-        super(deviceID, name);
-        this.storageSpace = storageSpace;
-        this.color = color;
-        this.hasESim = hasESim;
-    }
-
-    //device cu pret fix
     public MobilePhone(int deviceID, String name, int price,
                        int storageSpace, String color, boolean hasESim) {
         super(deviceID, name, price);
         this.storageSpace = storageSpace;
         this.color = color;
         this.hasESim = hasESim;
+    }
+
+    public MobilePhone(int deviceID, String name,
+                       int storageSpace, String color, boolean hasESim) {
+        this(deviceID, name, 0, storageSpace, color, hasESim);
     }
 
     @Override

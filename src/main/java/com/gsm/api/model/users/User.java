@@ -1,4 +1,4 @@
-package com.gsm.api.model;
+package com.gsm.api.model.users;
 
 import java.time.temporal.ChronoUnit;
 import java.time.*;

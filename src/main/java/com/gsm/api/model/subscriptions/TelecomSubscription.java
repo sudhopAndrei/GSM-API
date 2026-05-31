@@ -1,4 +1,6 @@
-package com.gsm.api.model;
+package com.gsm.api.model.subscriptions;
+
+import com.gsm.api.model.interfaces.Billable;
 
 public abstract class TelecomSubscription implements Billable {
     private final int subscriptionID;
@@ -6,19 +8,15 @@ public abstract class TelecomSubscription implements Billable {
     private int contractLength;
     private int price;
 
-    protected TelecomSubscription(int subscriptionID, String name, int contractLength) {
-        this.subscriptionID = subscriptionID;
-        this.name = name;
-        this.contractLength = contractLength;
-        this.price = 2;
-    }
-
-    //pentru serviciu cu pret dat
     protected TelecomSubscription(int subscriptionID, String name, int contractLength, int price) {
         this.subscriptionID = subscriptionID;
         this.name = name;
         this.contractLength = contractLength;
         this.price = price;
+    }
+
+    protected TelecomSubscription(int subscriptionID, String name, int contractLength) {
+        this(subscriptionID, name, contractLength, 2);
     }
 
     //gettere

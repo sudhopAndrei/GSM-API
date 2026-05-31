@@ -1,8 +1,13 @@
-package com.gsm.api.model;
+package com.gsm.api.service;
+
+import com.gsm.api.model.devices.Device;
+import com.gsm.api.model.interfaces.Billable;
+import com.gsm.api.model.subscriptions.TelecomSubscription;
+import com.gsm.api.model.users.Customer;
+import com.gsm.api.model.users.Person;
 
 import java.time.*;
 import java.time.temporal.ChronoUnit;
-import java.util.List;
 import java.util.Map;
 
 public class BillingService {

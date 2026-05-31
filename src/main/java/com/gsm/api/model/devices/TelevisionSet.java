@@ -1,4 +1,4 @@
-package com.gsm.api.model;
+package com.gsm.api.model.devices;
 
 public class TelevisionSet extends Device {
     private final double diagonalInches;
@@ -17,10 +17,7 @@ public class TelevisionSet extends Device {
     public TelevisionSet(int deviceID, String name,
                          double diagonalInches, String resolution, boolean isSmartTv) {
 
-        super(deviceID, name);
-        this.diagonalInches = diagonalInches;
-        this.resolution = resolution;
-        this.isSmartTv = isSmartTv;
+        this(deviceID, name, 0, diagonalInches, resolution, isSmartTv);
     }
 
     @Override

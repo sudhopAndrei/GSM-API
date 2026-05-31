@@ -1,6 +1,7 @@
-package com.gsm.api.model;
+package com.gsm.api.model.users;
 
-import java.time.temporal.ChronoUnit;
+import com.gsm.api.model.interfaces.Billable;
+
 import java.util.*;
 import java.time.*;
 

@@ -1,20 +1,10 @@
-package com.gsm.api.model;
+package com.gsm.api.model.subscriptions;
 
 public class TVSubscription extends TelecomSubscription {
     private int numberOfChannels;
     private boolean hasHDChannels;
     private boolean hasStreamingService;
 
-    public TVSubscription(int subscriptionID, String name, int contractLength,
-                          int numberOfChannels, boolean hasHDChannels, boolean hasStreamingService) {
-
-        super(subscriptionID, name, contractLength);
-        this.numberOfChannels = numberOfChannels;
-        this.hasHDChannels = hasHDChannels;
-        this.hasStreamingService = hasStreamingService;
-    }
-
-    //pentru serviciu cu pret dat
     public TVSubscription(int subscriptionID, String name, int contractLength, int price,
                           int numberOfChannels, boolean hasHDChannels, boolean hasStreamingService) {
 
@@ -23,6 +13,12 @@ public class TVSubscription extends TelecomSubscription {
         this.hasHDChannels = hasHDChannels;
         this.hasStreamingService = hasStreamingService;
     }
+
+    public TVSubscription(int subscriptionID, String name, int contractLength,
+                          int numberOfChannels, boolean hasHDChannels, boolean hasStreamingService) {
+        this(subscriptionID, name, contractLength, 2, numberOfChannels, hasHDChannels, hasStreamingService);
+    }
+
 
     @Override
     public int calculateCost() {

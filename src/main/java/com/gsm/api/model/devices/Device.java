@@ -1,20 +1,22 @@
-package com.gsm.api.model;
+package com.gsm.api.model.devices;
+
+import com.gsm.api.model.interfaces.Billable;
+import com.gsm.api.model.interfaces.Warrantable;
 
 public abstract class Device implements Billable, Warrantable {
     private final int deviceID;
     private String name;
     private int price;
 
-    public Device(int deviceID, String name) {
-        this.deviceID = deviceID;
-        this.name = name;
-    }
-
-    //device cu pret fix
-    public Device(int deviceID, String name, int price) {
+    protected Device(int deviceID, String name, int price) {
         this.deviceID = deviceID;
         this.name = name;
         this.price = price;
+    }
+
+    //pret default
+    protected Device(int deviceID, String name) {
+        this(deviceID, name, 0);
     }
 
     //gettere

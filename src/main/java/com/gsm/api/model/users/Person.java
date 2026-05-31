@@ -1,7 +1,8 @@
-package com.gsm.api.model;
+package com.gsm.api.model.users;
+
+import com.gsm.api.model.interfaces.Billable;
 
 import java.time.LocalDate;
-import java.util.Map;
 
 public class Person extends Customer {
     private String IBAN;

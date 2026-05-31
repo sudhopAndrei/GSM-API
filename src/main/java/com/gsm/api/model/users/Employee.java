@@ -1,4 +1,4 @@
-package com.gsm.api.model;
+package com.gsm.api.model.users;
 
 import java.time.*;
 
@@ -20,5 +20,5 @@ public class Employee extends User {
 
     //settere
     public void setRole(String role) {this.role = role;}
-    public void setSalary(int role) {this.salary = role;}
+    public void setSalary(int role) {this.salary = salary;}
 }

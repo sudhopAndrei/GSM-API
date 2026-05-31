@@ -1,9 +1,8 @@
-package com.gsm.api.model;
+package com.gsm.api.model.users;
 
-import org.springframework.cglib.core.Local;
+import com.gsm.api.model.interfaces.Billable;
 
 import java.time.LocalDate;
-import java.util.Map;
 
 public class Company extends Customer {
     private String representativeName;
