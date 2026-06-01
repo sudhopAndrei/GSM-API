@@ -26,6 +26,12 @@ public class TelevisionSet extends Device {
     }
 
     @Override
+    public int getBillableID() {return this.getDeviceID();}
+
+    @Override
+    public String getTypeIdentifier() {return "TelevisionSet";}
+
+    @Override
     public int calculateWarranty() {
         return 0;
     }

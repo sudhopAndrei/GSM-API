@@ -40,6 +40,12 @@ public class TVSubscription extends TelecomSubscription {
     }
 
     //gettere
+    @Override
+    public int getBillableID() {return this.getSubscriptionID();}
+
+    @Override
+    public String getTypeIdentifier() {return "TVSubscription";}
+
     public int getNumberOfChannels() {return this.numberOfChannels;}
     public boolean getHasHDChannels() {return this.hasHDChannels;}
     public boolean getHasStreamingService() {return this.hasStreamingService;}

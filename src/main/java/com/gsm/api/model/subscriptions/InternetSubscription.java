@@ -60,6 +60,12 @@ public class InternetSubscription extends TelecomSubscription implements Warrant
     }
 
     //gettere
+    @Override
+    public int getBillableID() {return this.getSubscriptionID();}
+
+    @Override
+    public String getTypeIdentifier() {return "InternetSubscription";}
+
     public int getDownloadSpeedMbps() {return this.downloadSpeedMbps;}
     public int getUploadSpeedMbps() {return this.uploadSpeedMbps;}
     public boolean getIsFiberOptic() {return this.isFiberOptic;}

@@ -1,23 +1,24 @@
 package com.gsm.api.model.purchases;
 
-import com.gsm.api.model.interfaces.Billable;
-
 import java.time.LocalDate;
 
 public class Purchase {
     private int purchaseID;
-    private Billable item;
+    private int itemID;
+    private String itemType;
     private LocalDate date;
 
-    public Purchase(int purchaseID, Billable item, LocalDate date) {
+    public Purchase(int purchaseID, int itemID, String itemType, LocalDate date) {
         this.purchaseID = purchaseID;
-        this.item = item;
+        this.itemID = itemID;
+        this.itemType = itemType;
         this.date = date;
     }
 
     //gettere
     public int getPurchaseID() {return this.purchaseID;}
-    public Billable getItem() {return this.item;}
+    public int getItemID() {return this.itemID;}
+    public String getItemType() {return this.itemType;}
     public LocalDate getDate() {return this.date;}
 
     //settere

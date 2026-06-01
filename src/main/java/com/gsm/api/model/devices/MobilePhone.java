@@ -1,6 +1,7 @@
 package com.gsm.api.model.devices;
 
 public class MobilePhone extends Device{
+
     private final int storageSpace;
     private final String color;
     private final boolean hasESim;
@@ -22,6 +23,12 @@ public class MobilePhone extends Device{
     public int calculateCost() {
         return 0;
     }
+
+    @Override
+    public int getBillableID() {return this.getDeviceID();}
+
+    @Override
+    public String getTypeIdentifier() {return "MobilePhone";}
 
     @Override
     public int calculateWarranty() {

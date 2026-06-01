@@ -1,6 +1,7 @@
 package com.gsm.api.model.subscriptions;
 
 public class MobileSubscription extends TelecomSubscription {
+
     private int nationalMinutes;
     private int networkGB;
     private int internationalMinutes;
@@ -45,10 +46,14 @@ public class MobileSubscription extends TelecomSubscription {
     }
 
     //gettere
+    @Override
+    public int getBillableID() {return this.getSubscriptionID();}
+
+    @Override
+    public String getTypeIdentifier() {return "MobileSubscription";}
+
     public int getNationalMinutes() {return this.nationalMinutes;}
     public int getNetworkGB() {return this.networkGB;}
     public int getInternationalMinutes() {return this.internationalMinutes;}
     public boolean getHasRoaming() {return this.hasRoaming;}
-
-
 }
