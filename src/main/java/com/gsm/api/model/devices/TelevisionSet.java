@@ -29,4 +29,9 @@ public class TelevisionSet extends Device {
     public int calculateWarranty() {
         return 0;
     }
+
+    //gettere
+    public double getDiagonalInches() {return this.diagonalInches;}
+    public String getResolution() {return this.resolution;}
+    public boolean getIsSmartTv() {return this.isSmartTv;}
 }

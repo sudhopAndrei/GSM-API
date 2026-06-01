@@ -58,4 +58,10 @@ public class InternetSubscription extends TelecomSubscription implements Warrant
 
         return warrantyMonths;
     }
+
+    //gettere
+    public int getDownloadSpeedMbps() {return this.downloadSpeedMbps;}
+    public int getUploadSpeedMbps() {return this.uploadSpeedMbps;}
+    public boolean getIsFiberOptic() {return this.isFiberOptic;}
+    public boolean getHasRouter() {return this.hasRouter;}
 }

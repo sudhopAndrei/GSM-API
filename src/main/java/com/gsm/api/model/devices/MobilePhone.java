@@ -27,4 +27,9 @@ public class MobilePhone extends Device{
     public int calculateWarranty() {
         return 0;
     }
+
+    //gettere
+    public int getStorageSpace() {return this.storageSpace;}
+    public String getColor() {return this.color;}
+    public boolean getHasESim() {return this.hasESim;}
 }

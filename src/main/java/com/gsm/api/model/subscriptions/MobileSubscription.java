@@ -44,5 +44,11 @@ public class MobileSubscription extends TelecomSubscription {
         return serviceCost;
     }
 
+    //gettere
+    public int getNationalMinutes() {return this.nationalMinutes;}
+    public int getNetworkGB() {return this.networkGB;}
+    public int getInternationalMinutes() {return this.internationalMinutes;}
+    public boolean getHasRoaming() {return this.hasRoaming;}
+
 
 }

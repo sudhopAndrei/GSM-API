@@ -38,4 +38,9 @@ public class TVSubscription extends TelecomSubscription {
 
         return serviceCost;
     }
+
+    //gettere
+    public int getNumberOfChannels() {return this.numberOfChannels;}
+    public boolean getHasHDChannels() {return this.hasHDChannels;}
+    public boolean getHasStreamingService() {return this.hasStreamingService;}
 }
