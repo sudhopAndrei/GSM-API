@@ -4,6 +4,7 @@ import com.gsm.api.model.users.Person;
 import com.gsm.api.service.DatabaseManager;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -12,27 +13,27 @@ public class PersonRepository {
     private PersonRepository() {}
 
     //insert
-    public static Person create(Person person) throws SQLException {
+    public static Person create(String name, String email, String phoneNumber,
+                                LocalDate joinDate, String IBAN) throws SQLException {
         try (Connection connection = DatabaseManager.getConnection()) {
 
             ResultSet seq = connection.prepareStatement("SELECT SEQ_USER_ID.NEXTVAL FROM DUAL").executeQuery();
             seq.next();
-            int newId = seq.getInt(1);
+            int userID = seq.getInt(1);
 
             PreparedStatement statement = connection.prepareStatement(
                     "INSERT INTO PERSONS (USER_ID, NAME, EMAIL, PHONE_NUMBER, JOIN_DATE, IBAN) " +
                             "VALUES (?, ?, ?, ?, ?, ?)");
-            statement.setInt(1, newId);
-            statement.setString(2, person.getName());
-            statement.setString(3, person.getEmail());
-            statement.setString(4, person.getPhoneNumber());
-            statement.setDate(5, Date.valueOf(person.getJoinDate()));
-            statement.setString(6, person.getIBAN());
+            statement.setInt(1, userID);
+            statement.setString(2, name);
+            statement.setString(3, email);
+            statement.setString(4, phoneNumber);
+            statement.setDate(5, Date.valueOf(joinDate));
+            statement.setString(6, IBAN);
             statement.executeUpdate();
 
             //returnam persoana cu id-ul schimbat din secventa
-            return new Person(newId, person.getName(), person.getEmail(),
-                    person.getPhoneNumber(), person.getJoinDate(), person.getIBAN());
+            return new Person(userID, name, email, phoneNumber, joinDate, IBAN);
         }
     }
 
