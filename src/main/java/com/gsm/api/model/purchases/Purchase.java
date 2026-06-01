@@ -19,4 +19,7 @@ public class Purchase {
     public int getPurchaseID() {return this.purchaseID;}
     public Billable getItem() {return this.item;}
     public LocalDate getDate() {return this.date;}
+
+    //settere
+    public void setPurchaseID(int purchaseID) {this.purchaseID = purchaseID;}
 }

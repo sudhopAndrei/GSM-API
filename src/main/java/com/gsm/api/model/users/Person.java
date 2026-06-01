@@ -27,4 +27,5 @@ public class Person extends Customer {
 
     //getters
     public int getLoyaltyPoints() {return this.loyaltyPoints;}
+    public String getIBAN() {return this.IBAN;}
 }
