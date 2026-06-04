@@ -1,15 +1,14 @@
-package com.gsm.api.repository;
+package com.gsm.api.dao;
 
 import com.gsm.api.model.subscriptions.MobileSubscription;
-import com.gsm.api.service.DatabaseManager;
+import com.gsm.api.db.DatabaseManager;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
-public class MobileSubscriptionRepository {
-    private MobileSubscriptionRepository() {}
+public class MobileSubscriptionDAO {
+    private MobileSubscriptionDAO() {}
 
     //insert
     public static MobileSubscription create(String name, int contractLength, int price,
@@ -41,7 +40,7 @@ public class MobileSubscriptionRepository {
     }
 
     //select where id = x
-    public static Optional<MobileSubscription> findById(int subscriptionID) throws SQLException {
+    public static MobileSubscription findById(int subscriptionID) throws SQLException {
         try (Connection connection = DatabaseManager.getConnection()) {
 
             PreparedStatement statement = connection.prepareStatement(
@@ -51,7 +50,7 @@ public class MobileSubscriptionRepository {
             statement.setInt(1, subscriptionID);
             ResultSet resultSet = statement.executeQuery();
 
-            if (resultSet.next() == false) return Optional.empty();
+            if (resultSet.next() == false) return null;
 
             MobileSubscription mobileSubscription = new MobileSubscription(
                     resultSet.getInt("SUBSCRIPTION_ID"), resultSet.getString("NAME"),
@@ -59,7 +58,7 @@ public class MobileSubscriptionRepository {
                     resultSet.getInt("NATIONAL_MINUTES"), resultSet.getInt("NETWORK_GB"),
                     resultSet.getInt("INTERNATIONAL_MINUTES"), resultSet.getBoolean("HAS_ROAMING"));
 
-            return Optional.of(mobileSubscription);
+            return mobileSubscription;
         }
     }
 

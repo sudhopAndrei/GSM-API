@@ -1,15 +1,14 @@
-package com.gsm.api.repository;
+package com.gsm.api.dao;
 
 import com.gsm.api.model.subscriptions.TVSubscription;
-import com.gsm.api.service.DatabaseManager;
+import com.gsm.api.db.DatabaseManager;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
-public class TVSubscriptionRepository {
-    private TVSubscriptionRepository() {}
+public class TVSubscriptionDAO {
+    private TVSubscriptionDAO() {}
 
     //insert
     public static TVSubscription create(String name, int contractLength, int price,
@@ -40,7 +39,7 @@ public class TVSubscriptionRepository {
     }
 
     //select where id = x
-    public static Optional<TVSubscription> findById(int subscriptionID) throws SQLException {
+    public static TVSubscription findById(int subscriptionID) throws SQLException {
         try (Connection connection = DatabaseManager.getConnection()) {
 
             PreparedStatement statement = connection.prepareStatement(
@@ -50,7 +49,7 @@ public class TVSubscriptionRepository {
             statement.setInt(1, subscriptionID);
             ResultSet resultSet = statement.executeQuery();
 
-            if (resultSet.next() == false) return Optional.empty();
+            if (resultSet.next() == false) return null;
 
             TVSubscription tvSubscription = new TVSubscription(
                     resultSet.getInt("SUBSCRIPTION_ID"), resultSet.getString("NAME"),
@@ -58,7 +57,7 @@ public class TVSubscriptionRepository {
                     resultSet.getInt("NUMBER_OF_CHANNELS"), resultSet.getBoolean("HAS_HD_CHANNELS"),
                     resultSet.getBoolean("HAS_STREAMING_SERVICE"));
 
-            return Optional.of(tvSubscription);
+            return tvSubscription;
         }
     }
 

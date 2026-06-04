@@ -1,4 +1,4 @@
-package com.gsm.api.service;
+package com.gsm.api.db;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

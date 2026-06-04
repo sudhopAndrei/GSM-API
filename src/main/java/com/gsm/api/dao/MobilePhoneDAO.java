@@ -1,15 +1,14 @@
-package com.gsm.api.repository;
+package com.gsm.api.dao;
 
 import com.gsm.api.model.devices.MobilePhone;
-import com.gsm.api.service.DatabaseManager;
+import com.gsm.api.db.DatabaseManager;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
-public class MobilePhoneRepository {
-    private MobilePhoneRepository() {}
+public class MobilePhoneDAO {
+    private MobilePhoneDAO() {}
 
     //insert
     public static MobilePhone create(String name, int price,
@@ -36,7 +35,7 @@ public class MobilePhoneRepository {
     }
 
     //select where id = x
-    public static Optional<MobilePhone> findById(int deviceID) throws SQLException {
+    public static MobilePhone findById(int deviceID) throws SQLException {
         try (Connection connection = DatabaseManager.getConnection()) {
 
             PreparedStatement statement = connection.prepareStatement(
@@ -45,13 +44,13 @@ public class MobilePhoneRepository {
             statement.setInt(1, deviceID);
             ResultSet resultSet = statement.executeQuery();
 
-            if (resultSet.next() == false) return Optional.empty();
+            if (resultSet.next() == false) return null;
 
             MobilePhone mobilePhone = new MobilePhone(
                     resultSet.getInt("DEVICE_ID"), resultSet.getString("NAME"), resultSet.getInt("PRICE"),
                     resultSet.getInt("STORAGE_SPACE"), resultSet.getString("COLOR"), resultSet.getBoolean("HAS_ESIM"));
 
-            return Optional.of(mobilePhone);
+            return mobilePhone;
         }
     }
 

@@ -1,15 +1,15 @@
-package com.gsm.api.repository;
+package com.gsm.api.dao;
 
 import com.gsm.api.model.subscriptions.InternetSubscription;
-import com.gsm.api.service.DatabaseManager;
+import com.gsm.api.db.DatabaseManager;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class InternetSubscriptionRepository {
-    private InternetSubscriptionRepository() {}
+public class InternetSubscriptionDAO {
+    private InternetSubscriptionDAO() {}
 
     //insert
     public static InternetSubscription create(String name, int contractLength, int price,

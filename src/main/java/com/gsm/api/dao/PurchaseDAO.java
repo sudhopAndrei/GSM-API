@@ -1,17 +1,16 @@
-package com.gsm.api.repository;
+package com.gsm.api.dao;
 
 import com.gsm.api.model.interfaces.Billable;
 import com.gsm.api.model.purchases.Purchase;
-import com.gsm.api.service.DatabaseManager;
+import com.gsm.api.db.DatabaseManager;
 
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
-public class PurchaseRepository {
-    private PurchaseRepository() {}
+public class PurchaseDAO {
+    private PurchaseDAO() {}
 
     //insert
     public static Purchase create(int userID, Billable item, LocalDate date) throws SQLException {
@@ -36,7 +35,7 @@ public class PurchaseRepository {
     }
 
     //select where id = x
-    public static Optional<Purchase> findById(int purchaseID) throws SQLException {
+    public static Purchase findById(int purchaseID) throws SQLException {
         try (Connection connection = DatabaseManager.getConnection()) {
 
             PreparedStatement statement = connection.prepareStatement(
@@ -45,13 +44,13 @@ public class PurchaseRepository {
             statement.setInt(1, purchaseID);
             ResultSet rs = statement.executeQuery();
 
-            if (rs.next() == false) return Optional.empty();
+            if (rs.next() == false) return null;
 
-            return Optional.of(new Purchase(
+            return new Purchase(
                     rs.getInt("PURCHASE_ID"),
                     rs.getInt("ITEM_ID"),
                     rs.getString("ITEM_TYPE"),
-                    rs.getDate("PURCHASE_DATE").toLocalDate()));
+                    rs.getDate("PURCHASE_DATE").toLocalDate());
         }
     }
 
