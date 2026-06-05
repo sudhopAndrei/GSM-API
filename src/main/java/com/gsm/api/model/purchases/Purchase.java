@@ -1,6 +1,7 @@
 package com.gsm.api.model.purchases;
 
 import java.time.LocalDate;
+import com.gsm.api.model.interfaces.Billable;
 
 public class Purchase {
     private int purchaseID;
@@ -8,6 +9,8 @@ public class Purchase {
     private int itemID; //fk pt produs
     private String itemType;
     private LocalDate date;
+
+    private Billable item; //field pentru reconstructia itemului din baza de date
 
     public Purchase(int purchaseID, int userID, int itemID, String itemType, LocalDate date) {
         this.purchaseID = purchaseID;
@@ -26,4 +29,8 @@ public class Purchase {
 
     //settere
     public void setPurchaseID(int purchaseID) {this.purchaseID = purchaseID;}
+
+    //get + set pt item
+    public Billable getItem() {return this.item;}
+    public void setItem(Billable item) {this.item = item;}
 }

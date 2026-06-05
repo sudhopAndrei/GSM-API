@@ -14,7 +14,7 @@ public class InternetSubscriptionDAO {
     //insert
     public static InternetSubscription create(String name, int contractLength, int price,
                                               int downloadSpeedMbps, int uploadSpeedMbps,
-                                              boolean isFiberOptic, boolean hasRouter) throws SQLException {
+                                              boolean isFiberOptic, boolean hasRouter) {
         try (Connection connection = DatabaseManager.getConnection()) {
 
             ResultSet seq = connection.prepareStatement("SELECT SEQ_SUBSCRIPTION_ID.NEXTVAL FROM DUAL").executeQuery();
@@ -38,10 +38,13 @@ public class InternetSubscriptionDAO {
             return new InternetSubscription(subscriptionID, name, contractLength, price,
                     downloadSpeedMbps, uploadSpeedMbps, isFiberOptic, hasRouter);
         }
+        catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     //select where id = x
-    public static Optional<InternetSubscription> findById(int subscriptionID) throws SQLException {
+    public static InternetSubscription findById(int subscriptionID) {
         try (Connection connection = DatabaseManager.getConnection()) {
 
             PreparedStatement statement = connection.prepareStatement(
@@ -51,7 +54,7 @@ public class InternetSubscriptionDAO {
             statement.setInt(1, subscriptionID);
             ResultSet resultSet = statement.executeQuery();
 
-            if (resultSet.next() == false) return Optional.empty();
+            if (resultSet.next() == false) return null;
 
             InternetSubscription internetSubscription = new InternetSubscription(
                     resultSet.getInt("SUBSCRIPTION_ID"), resultSet.getString("NAME"),
@@ -59,12 +62,15 @@ public class InternetSubscriptionDAO {
                     resultSet.getInt("DOWNLOAD_SPEED_MBPS"), resultSet.getInt("UPLOAD_SPEED_MBPS"),
                     resultSet.getBoolean("IS_FIBER_OPTIC"), resultSet.getBoolean("HAS_ROUTER"));
 
-            return Optional.of(internetSubscription);
+            return internetSubscription;
+        }
+        catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 
     //select all
-    public static List<InternetSubscription> findAll() throws SQLException {
+    public static List<InternetSubscription> findAll() {
         try (Connection connection = DatabaseManager.getConnection()) {
 
             ResultSet rs = connection.prepareStatement(
@@ -83,10 +89,13 @@ public class InternetSubscriptionDAO {
             }
             return internetSubscriptions;
         }
+        catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     //update
-    public static void update(InternetSubscription internetSubscription) throws SQLException {
+    public static void update(InternetSubscription internetSubscription) {
         try (Connection connection = DatabaseManager.getConnection()) {
 
             PreparedStatement statement = connection.prepareStatement(
@@ -103,16 +112,22 @@ public class InternetSubscriptionDAO {
             statement.setInt(8, internetSubscription.getSubscriptionID());
             statement.executeUpdate();
         }
+        catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     //delete
-    public static void delete(int subscriptionID) throws SQLException {
+    public static void delete(int subscriptionID) {
         try (Connection connection = DatabaseManager.getConnection()) {
 
             PreparedStatement statement = connection.prepareStatement(
                     "DELETE FROM INTERNET_SUBSCRIPTIONS WHERE SUBSCRIPTION_ID = ?");
             statement.setInt(1, subscriptionID);
             statement.executeUpdate();
+        }
+        catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 }

@@ -2,6 +2,7 @@ package com.gsm.api.dao;
 
 import com.gsm.api.model.users.Person;
 import com.gsm.api.db.DatabaseManager;
+import com.gsm.api.model.purchases.Purchase;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -13,7 +14,7 @@ public class PersonDAO {
 
     //insert
     public static Person create(String name, String email, String phoneNumber,
-                                LocalDate joinDate, String IBAN) throws SQLException {
+                                LocalDate joinDate, String IBAN) {
         try (Connection connection = DatabaseManager.getConnection()) {
 
             ResultSet seq = connection.prepareStatement("SELECT SEQ_USER_ID.NEXTVAL FROM DUAL").executeQuery();
@@ -34,10 +35,13 @@ public class PersonDAO {
             //returnam persoana cu id-ul schimbat din secventa
             return new Person(userID, name, email, phoneNumber, joinDate, IBAN);
         }
+        catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     //select where id = x
-    public static Person findById(int userID) throws SQLException {
+    public static Person findById(int userID) {
         try (Connection connection = DatabaseManager.getConnection()) {
 
             PreparedStatement statement = connection.prepareStatement(
@@ -53,13 +57,20 @@ public class PersonDAO {
                     resultSet.getString("PHONE_NUMBER"), resultSet.getDate("JOIN_DATE").toLocalDate(), resultSet.getString("IBAN"));
             person.setPenalties(resultSet.getInt("PENALTIES"));
             person.addLoyaltyPoints(resultSet.getInt("LOYALTY_POINTS"));
+            
+            for (Purchase purchase : PurchaseDAO.findByUserId(resultSet.getInt("USER_ID"))) {
+                person.loadPurchase(purchase);
+            }
 
             return person;
+        }
+        catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 
     //select all
-    public static List<Person> findAll() throws SQLException {
+    public static List<Person> findAll() {
         try (Connection connection = DatabaseManager.getConnection()) {
 
             ResultSet rs = connection.prepareStatement(
@@ -73,14 +84,22 @@ public class PersonDAO {
                         rs.getString("PHONE_NUMBER"), rs.getDate("JOIN_DATE").toLocalDate(), rs.getString("IBAN"));
                 person.setPenalties(rs.getInt("PENALTIES"));
                 person.addLoyaltyPoints(rs.getInt("LOYALTY_POINTS"));
+
+                for (Purchase purchase : PurchaseDAO.findByUserId(resultSet.getInt("USER_ID"))) {
+                    person.loadPurchase(purchase);
+                }
+                
                 persons.add(person);
             }
             return persons;
         }
+        catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     //update
-    public static void update(Person person) throws SQLException {
+    public static void update(Person person) {
         try (Connection connection = DatabaseManager.getConnection()) {
 
             PreparedStatement statement = connection.prepareStatement(
@@ -95,16 +114,22 @@ public class PersonDAO {
             statement.setInt(7, person.getUserID());
             statement.executeUpdate();
         }
+        catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     //delete
-    public static void delete(int userID) throws SQLException {
+    public static void delete(int userID) {
         try (Connection connection = DatabaseManager.getConnection()) {
 
             PreparedStatement statement = connection.prepareStatement(
                     "DELETE FROM PERSONS WHERE USER_ID = ?");
             statement.setInt(1, userID);
             statement.executeUpdate();
+        }
+        catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 }

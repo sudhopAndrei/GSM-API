@@ -12,8 +12,29 @@ import java.util.List;
 public class PurchaseDAO {
     private PurchaseDAO() {}
 
+    //pe un codebase mare am fi folosit un mapper de tip <itemID, Billable item>
+    //care ar fi incarcat itemele la inceput si mapat dupa dinamic
+    private static Billable itemResolver(int itemID, String itemType) {
+        if (itemType.equals("MobileSubscription")) {
+            return MobileSubscriptionDAO.findById(itemID);
+        }
+        if (itemType.equals("InternetSubscription")) {
+            return InternetSubscriptionDAO.findById(itemID);
+        }
+        if (itemType.equals("TVSubscription")) {
+            return TVSubscriptionDAO.findById(itemID);
+        }
+        if (itemType.equals("MobilePhone")) {
+            return MobilePhoneDAO.findById(itemID);
+        }
+        if (itemType.equals("TelevisionSet")) {
+            return TelevisionSetDAO.findById(itemID);
+        }
+        return null;
+    }
+
     //insert
-    public static Purchase create(int userID, Billable item, LocalDate date) throws SQLException {
+    public static Purchase create(int userID, Billable item, LocalDate date) {
         try (Connection connection = DatabaseManager.getConnection()) {
 
             ResultSet seq = connection.prepareStatement("SELECT SEQ_PURCHASE_ID.NEXTVAL FROM DUAL").executeQuery();
@@ -30,12 +51,17 @@ public class PurchaseDAO {
             statement.setDate(5, Date.valueOf(date));
             statement.executeUpdate();
 
-            return new Purchase(purchaseID, userID, item.getBillableID(), item.getTypeIdentifier(), date);
+            Purchase purchase = new Purchase(purchaseID, userID, item.getBillableID(), item.getTypeIdentifier(), date);
+            purchase.setItem(itemResolver(item.getBillableID(), item.getTypeIdentifier()));
+            return purchase;
+        }
+        catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 
     //select where id = x
-    public static Purchase findById(int purchaseID) throws SQLException {
+    public static Purchase findById(int purchaseID) {
         try (Connection connection = DatabaseManager.getConnection()) {
 
             PreparedStatement statement = connection.prepareStatement(
@@ -46,17 +72,22 @@ public class PurchaseDAO {
 
             if (rs.next() == false) return null;
 
-            return new Purchase(
+            Purchase purchase = new Purchase(
                     rs.getInt("PURCHASE_ID"),
                     rs.getInt("USER_ID"),
                     rs.getInt("ITEM_ID"),
                     rs.getString("ITEM_TYPE"),
                     rs.getDate("PURCHASE_DATE").toLocalDate());
+            purchase.setItem(itemResolver(rs.getInt("ITEM_ID"), rs.getString("ITEM_TYPE")));
+            return purchase;
+        }
+        catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 
     //select all purchases for a given customer
-    public static List<Purchase> findByUserId(int userID) throws SQLException {
+    public static List<Purchase> findByUserId(int userID) {
         try (Connection connection = DatabaseManager.getConnection()) {
 
             PreparedStatement statement = connection.prepareStatement(
@@ -67,25 +98,33 @@ public class PurchaseDAO {
 
             List<Purchase> purchases = new ArrayList<>();
             while (rs.next()) {
-                purchases.add(new Purchase(
+                Purchase purchase = new Purchase(
                         rs.getInt("PURCHASE_ID"),
                         rs.getInt("USER_ID"),
                         rs.getInt("ITEM_ID"),
                         rs.getString("ITEM_TYPE"),
-                        rs.getDate("PURCHASE_DATE").toLocalDate()));
+                        rs.getDate("PURCHASE_DATE").toLocalDate());
+                purchase.setItem(itemResolver(rs.getInt("ITEM_ID"), rs.getString("ITEM_TYPE")));
+                purchases.add(purchase);
             }
             return purchases;
+        }
+        catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 
     //delete
-    public static void delete(int purchaseID) throws SQLException {
+    public static void delete(int purchaseID) {
         try (Connection connection = DatabaseManager.getConnection()) {
 
             PreparedStatement statement = connection.prepareStatement(
                     "DELETE FROM PURCHASES WHERE PURCHASE_ID = ?");
             statement.setInt(1, purchaseID);
             statement.executeUpdate();
+        }
+        catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 }

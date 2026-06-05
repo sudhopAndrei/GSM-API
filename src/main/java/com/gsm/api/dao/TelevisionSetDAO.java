@@ -12,7 +12,7 @@ public class TelevisionSetDAO {
 
     //insert
     public static TelevisionSet create(String name, int price,
-                                       double diagonalInches, String resolution, boolean isSmartTv) throws SQLException {
+                                       double diagonalInches, String resolution, boolean isSmartTv) {
         try (Connection connection = DatabaseManager.getConnection()) {
 
             ResultSet seq = connection.prepareStatement("SELECT SEQ_DEVICE_ID.NEXTVAL FROM DUAL").executeQuery();
@@ -32,10 +32,13 @@ public class TelevisionSetDAO {
 
             return new TelevisionSet(deviceID, name, price, diagonalInches, resolution, isSmartTv);
         }
+        catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     //select where id = x
-    public static TelevisionSet findById(int deviceID) throws SQLException {
+    public static TelevisionSet findById(int deviceID) {
         try (Connection connection = DatabaseManager.getConnection()) {
 
             PreparedStatement statement = connection.prepareStatement(
@@ -52,10 +55,13 @@ public class TelevisionSetDAO {
 
             return televisionSet;
         }
+        catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     //select all
-    public static List<TelevisionSet> findAll() throws SQLException {
+    public static List<TelevisionSet> findAll() {
         try (Connection connection = DatabaseManager.getConnection()) {
 
             ResultSet rs = connection.prepareStatement(
@@ -71,10 +77,13 @@ public class TelevisionSetDAO {
             }
             return televisionSets;
         }
+        catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     //update
-    public static void update(TelevisionSet televisionSet) throws SQLException {
+    public static void update(TelevisionSet televisionSet) {
         try (Connection connection = DatabaseManager.getConnection()) {
 
             PreparedStatement statement = connection.prepareStatement(
@@ -88,16 +97,22 @@ public class TelevisionSetDAO {
             statement.setInt(6, televisionSet.getDeviceID());
             statement.executeUpdate();
         }
+        catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     //delete
-    public static void delete(int deviceID) throws SQLException {
+    public static void delete(int deviceID) {
         try (Connection connection = DatabaseManager.getConnection()) {
 
             PreparedStatement statement = connection.prepareStatement(
                     "DELETE FROM TELEVISION_SETS WHERE DEVICE_ID = ?");
             statement.setInt(1, deviceID);
             statement.executeUpdate();
+        }
+        catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 }

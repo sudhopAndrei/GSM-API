@@ -13,7 +13,7 @@ public class TVSubscriptionDAO {
     //insert
     public static TVSubscription create(String name, int contractLength, int price,
                                         int numberOfChannels, boolean hasHDChannels,
-                                        boolean hasStreamingService) throws SQLException {
+                                        boolean hasStreamingService) {
         try (Connection connection = DatabaseManager.getConnection()) {
 
             ResultSet seq = connection.prepareStatement("SELECT SEQ_SUBSCRIPTION_ID.NEXTVAL FROM DUAL").executeQuery();
@@ -36,10 +36,13 @@ public class TVSubscriptionDAO {
             return new TVSubscription(subscriptionID, name, contractLength, price,
                     numberOfChannels, hasHDChannels, hasStreamingService);
         }
+        catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     //select where id = x
-    public static TVSubscription findById(int subscriptionID) throws SQLException {
+    public static TVSubscription findById(int subscriptionID) {
         try (Connection connection = DatabaseManager.getConnection()) {
 
             PreparedStatement statement = connection.prepareStatement(
@@ -59,10 +62,13 @@ public class TVSubscriptionDAO {
 
             return tvSubscription;
         }
+        catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     //select all
-    public static List<TVSubscription> findAll() throws SQLException {
+    public static List<TVSubscription> findAll() {
         try (Connection connection = DatabaseManager.getConnection()) {
 
             ResultSet rs = connection.prepareStatement(
@@ -81,10 +87,13 @@ public class TVSubscriptionDAO {
             }
             return tvSubscriptions;
         }
+        catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     //update
-    public static void update(TVSubscription tvSubscription) throws SQLException {
+    public static void update(TVSubscription tvSubscription) {
         try (Connection connection = DatabaseManager.getConnection()) {
 
             PreparedStatement statement = connection.prepareStatement(
@@ -100,16 +109,22 @@ public class TVSubscriptionDAO {
             statement.setInt(7, tvSubscription.getSubscriptionID());
             statement.executeUpdate();
         }
+        catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     //delete
-    public static void delete(int subscriptionID) throws SQLException {
+    public static void delete(int subscriptionID) {
         try (Connection connection = DatabaseManager.getConnection()) {
 
             PreparedStatement statement = connection.prepareStatement(
                     "DELETE FROM TV_SUBSCRIPTIONS WHERE SUBSCRIPTION_ID = ?");
             statement.setInt(1, subscriptionID);
             statement.executeUpdate();
+        }
+        catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 }

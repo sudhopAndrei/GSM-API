@@ -12,7 +12,7 @@ public class MobilePhoneDAO {
 
     //insert
     public static MobilePhone create(String name, int price,
-                                     int storageSpace, String color, boolean hasESim) throws SQLException {
+                                     int storageSpace, String color, boolean hasESim) {
         try (Connection connection = DatabaseManager.getConnection()) {
 
             ResultSet seq = connection.prepareStatement("SELECT SEQ_DEVICE_ID.NEXTVAL FROM DUAL").executeQuery();
@@ -32,10 +32,13 @@ public class MobilePhoneDAO {
 
             return new MobilePhone(deviceID, name, price, storageSpace, color, hasESim);
         }
+        catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     //select where id = x
-    public static MobilePhone findById(int deviceID) throws SQLException {
+    public static MobilePhone findById(int deviceID) {
         try (Connection connection = DatabaseManager.getConnection()) {
 
             PreparedStatement statement = connection.prepareStatement(
@@ -52,10 +55,13 @@ public class MobilePhoneDAO {
 
             return mobilePhone;
         }
+        catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     //select all
-    public static List<MobilePhone> findAll() throws SQLException {
+    public static List<MobilePhone> findAll() {
         try (Connection connection = DatabaseManager.getConnection()) {
 
             ResultSet rs = connection.prepareStatement(
@@ -71,10 +77,13 @@ public class MobilePhoneDAO {
             }
             return mobilePhones;
         }
+        catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     //update
-    public static void update(MobilePhone mobilePhone) throws SQLException {
+    public static void update(MobilePhone mobilePhone) {
         try (Connection connection = DatabaseManager.getConnection()) {
 
             PreparedStatement statement = connection.prepareStatement(
@@ -88,16 +97,22 @@ public class MobilePhoneDAO {
             statement.setInt(6, mobilePhone.getDeviceID());
             statement.executeUpdate();
         }
+        catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     //delete
-    public static void delete(int deviceID) throws SQLException {
+    public static void delete(int deviceID) {
         try (Connection connection = DatabaseManager.getConnection()) {
 
             PreparedStatement statement = connection.prepareStatement(
                     "DELETE FROM MOBILE_PHONES WHERE DEVICE_ID = ?");
             statement.setInt(1, deviceID);
             statement.executeUpdate();
+        }
+        catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 }

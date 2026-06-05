@@ -30,5 +30,6 @@ public abstract class Customer extends User{
     public double getPenalties() {return this.penalties;}
 
     //settere
+    public void loadPurchase(Purchase purchase) {this.purchases.add(purchase);}
     public void setPenalties(int penalties) {this.penalties = penalties;}
 }

@@ -13,7 +13,7 @@ public class MobileSubscriptionDAO {
     //insert
     public static MobileSubscription create(String name, int contractLength, int price,
                                             int nationalMinutes, int networkGB,
-                                            int internationalMinutes, boolean hasRoaming) throws SQLException {
+                                            int internationalMinutes, boolean hasRoaming) {
         try (Connection connection = DatabaseManager.getConnection()) {
 
             ResultSet seq = connection.prepareStatement("SELECT SEQ_SUBSCRIPTION_ID.NEXTVAL FROM DUAL").executeQuery();
@@ -37,10 +37,13 @@ public class MobileSubscriptionDAO {
             return new MobileSubscription(subscriptionID, name, contractLength, price,
                     nationalMinutes, networkGB, internationalMinutes, hasRoaming);
         }
+        catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     //select where id = x
-    public static MobileSubscription findById(int subscriptionID) throws SQLException {
+    public static MobileSubscription findById(int subscriptionID) {
         try (Connection connection = DatabaseManager.getConnection()) {
 
             PreparedStatement statement = connection.prepareStatement(
@@ -60,10 +63,13 @@ public class MobileSubscriptionDAO {
 
             return mobileSubscription;
         }
+        catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     //select all
-    public static List<MobileSubscription> findAll() throws SQLException {
+    public static List<MobileSubscription> findAll() {
         try (Connection connection = DatabaseManager.getConnection()) {
 
             ResultSet rs = connection.prepareStatement(
@@ -82,10 +88,13 @@ public class MobileSubscriptionDAO {
             }
             return mobileSubscriptions;
         }
+        catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     //update
-    public static void update(MobileSubscription mobileSubscription) throws SQLException {
+    public static void update(MobileSubscription mobileSubscription) {
         try (Connection connection = DatabaseManager.getConnection()) {
 
             PreparedStatement statement = connection.prepareStatement(
@@ -102,16 +111,22 @@ public class MobileSubscriptionDAO {
             statement.setInt(8, mobileSubscription.getSubscriptionID());
             statement.executeUpdate();
         }
+        catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     //delete
-    public static void delete(int subscriptionID) throws SQLException {
+    public static void delete(int subscriptionID) {
         try (Connection connection = DatabaseManager.getConnection()) {
 
             PreparedStatement statement = connection.prepareStatement(
                     "DELETE FROM MOBILE_SUBSCRIPTIONS WHERE SUBSCRIPTION_ID = ?");
             statement.setInt(1, subscriptionID);
             statement.executeUpdate();
+        }
+        catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 }
