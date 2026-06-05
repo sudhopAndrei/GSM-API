@@ -4,9 +4,9 @@ import java.time.LocalDate;
 import com.gsm.api.model.interfaces.Billable;
 
 public class Purchase {
-    private int purchaseID;
-    private int userID; //fk pt user
-    private int itemID; //fk pt produs
+    private final int purchaseID;
+    private final int userID; //fk pt user
+    private final int itemID; //fk pt produs
     private String itemType;
     private LocalDate date;
 
@@ -21,14 +21,7 @@ public class Purchase {
     }
 
     //gettere
-    public int getPurchaseID() {return this.purchaseID;}
-    public int getUserID() {return this.userID;}
-    public int getItemID() {return this.itemID;}
-    public String getItemType() {return this.itemType;}
     public LocalDate getDate() {return this.date;}
-
-    //settere
-    public void setPurchaseID(int purchaseID) {this.purchaseID = purchaseID;}
 
     //get + set pt item
     public Billable getItem() {return this.item;}

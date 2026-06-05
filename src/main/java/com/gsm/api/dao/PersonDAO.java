@@ -85,7 +85,7 @@ public class PersonDAO {
                 person.setPenalties(rs.getInt("PENALTIES"));
                 person.addLoyaltyPoints(rs.getInt("LOYALTY_POINTS"));
 
-                for (Purchase purchase : PurchaseDAO.findByUserId(resultSet.getInt("USER_ID"))) {
+                for (Purchase purchase : PurchaseDAO.findByUserId(rs.getInt("USER_ID"))) {
                     person.loadPurchase(purchase);
                 }
                 

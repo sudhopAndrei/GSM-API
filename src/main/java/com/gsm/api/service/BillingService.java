@@ -1,5 +1,6 @@
 package com.gsm.api.service;
 
+import com.gsm.api.dao.PersonDAO;
 import com.gsm.api.model.devices.Device;
 import com.gsm.api.model.interfaces.Billable;
 import com.gsm.api.model.purchases.Purchase;
@@ -15,7 +16,9 @@ public class BillingService {
     private BillingService() {};
 
     //calculul facturii lunare
-    public static double recurringMonthlyBill (Customer customer) {
+    public static double recurringMonthlyBill (int userID) {
+        Customer customer = PersonDAO.findById(userID);
+
         double totalCost = 0;
 
         for (Purchase purchase : customer.getPurchases()) {
@@ -30,7 +33,9 @@ public class BillingService {
     }
 
     //calculul achizitiilor one-time in ultima luna (30 de zile)
-    public static double lastMonthBill (Customer customer) {
+    public static double lastMonthBill (int userID) {
+        Customer customer = PersonDAO.findById(userID);
+
         double totalCost = 0;
 
         for (Purchase purchase : customer.getPurchases()) {
@@ -44,7 +49,9 @@ public class BillingService {
     }
 
     //calculul penalizarii in cazul anularii unui abonament
-    public static int cancellationPenalty(Customer customer, int subscriptionID) {
+    public static int cancellationPenalty(int userID, int subscriptionID) {
+        Customer customer = PersonDAO.findById(userID);
+
         int penaltyCost = 0;
 
         for (Purchase purchase : customer.getPurchases()) {
@@ -67,7 +74,9 @@ public class BillingService {
     // de aici in jos mutat in CUSTOMER ca functie pt polimorfism
 
     //calculeaza discount ul pentru device uri pe baza punctelor (va fi apelat doar la cumpararea device urilor)
-    public static int calculateDiscount(Customer customer) {
+    public static int calculateDiscount(int userID) {
+        Customer customer = PersonDAO.findById(userID);
+
         int discountPercentage = 0;
 
         if (customer instanceof Person p) {

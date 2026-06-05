@@ -1,5 +1,6 @@
 package com.gsm.api.service;
 
+import com.gsm.api.dao.PersonDAO;
 import com.gsm.api.model.devices.Device;
 import com.gsm.api.model.interfaces.Billable;
 import com.gsm.api.model.interfaces.Warrantable;
@@ -17,7 +18,9 @@ public class WarrantyService {
     private WarrantyService() {};
 
     //produse cu garantie activa pentru un client
-    public static List<Billable> activeWarranties(Customer customer) {
+    public static List<Billable> activeWarranties(int userID) {
+        Customer customer = PersonDAO.findById(userID);
+
         List<Billable> warranties = new ArrayList<>();
 
         for (Purchase purchase : customer.getPurchases()) {
@@ -36,7 +39,9 @@ public class WarrantyService {
     }
 
     //extindem garantia unui produs cu un numar de luni
-    public static void extendedWarranty(Customer customer, int itemIdentifier, int monthsExtended) {
+    public static void extendedWarranty(int userID, int itemIdentifier, int monthsExtended) {
+        Customer customer = PersonDAO.findById(userID);
+
         for (Purchase purchase : customer.getPurchases()) {
             Billable item = purchase.getItem();
             if (item instanceof Warrantable) {
@@ -52,7 +57,9 @@ public class WarrantyService {
     }
 
     //anuleaza o garantie
-    public static void cancelWarranty(Customer customer, int itemIdentifier) {
+    public static void cancelWarranty(int userID, int itemIdentifier) {
+        Customer customer = PersonDAO.findById(userID);
+
         for (Purchase purchase : customer.getPurchases()) {
             Billable item = purchase.getItem();
             if (item instanceof Warrantable) {
@@ -66,7 +73,9 @@ public class WarrantyService {
     }
 
     // returneaza numarul de luni ramase din garantie sau -1 daca a expirat
-    public static int remainingWarrantyMonths(Customer customer, int itemIdentifier) {
+    public static int remainingWarrantyMonths(int userID, int itemIdentifier) {
+        Customer customer = PersonDAO.findById(userID);
+
         for (Purchase purchase : customer.getPurchases()) {
             Billable item = purchase.getItem();
             if (item instanceof Warrantable w) {
