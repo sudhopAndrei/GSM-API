@@ -30,7 +30,7 @@ public class PurchaseDAO {
             statement.setDate(5, Date.valueOf(date));
             statement.executeUpdate();
 
-            return new Purchase(purchaseID, item.getBillableID(), item.getTypeIdentifier(), date);
+            return new Purchase(purchaseID, userID, item.getBillableID(), item.getTypeIdentifier(), date);
         }
     }
 
@@ -39,7 +39,7 @@ public class PurchaseDAO {
         try (Connection connection = DatabaseManager.getConnection()) {
 
             PreparedStatement statement = connection.prepareStatement(
-                    "SELECT PURCHASE_ID, ITEM_ID, ITEM_TYPE, PURCHASE_DATE " +
+                    "SELECT PURCHASE_ID, USER_ID, ITEM_ID, ITEM_TYPE, PURCHASE_DATE " +
                             "FROM PURCHASES WHERE PURCHASE_ID = ?");
             statement.setInt(1, purchaseID);
             ResultSet rs = statement.executeQuery();
@@ -48,6 +48,7 @@ public class PurchaseDAO {
 
             return new Purchase(
                     rs.getInt("PURCHASE_ID"),
+                    rs.getInt("USER_ID"),
                     rs.getInt("ITEM_ID"),
                     rs.getString("ITEM_TYPE"),
                     rs.getDate("PURCHASE_DATE").toLocalDate());
@@ -59,7 +60,7 @@ public class PurchaseDAO {
         try (Connection connection = DatabaseManager.getConnection()) {
 
             PreparedStatement statement = connection.prepareStatement(
-                    "SELECT PURCHASE_ID, ITEM_ID, ITEM_TYPE, PURCHASE_DATE " +
+                    "SELECT PURCHASE_ID, USER_ID, ITEM_ID, ITEM_TYPE, PURCHASE_DATE " +
                             "FROM PURCHASES WHERE USER_ID = ?");
             statement.setInt(1, userID);
             ResultSet rs = statement.executeQuery();
@@ -68,6 +69,7 @@ public class PurchaseDAO {
             while (rs.next()) {
                 purchases.add(new Purchase(
                         rs.getInt("PURCHASE_ID"),
+                        rs.getInt("USER_ID"),
                         rs.getInt("ITEM_ID"),
                         rs.getString("ITEM_TYPE"),
                         rs.getDate("PURCHASE_DATE").toLocalDate()));
