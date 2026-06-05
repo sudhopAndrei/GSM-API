@@ -14,21 +14,21 @@ public class MobilePhoneDAO {
     public static MobilePhone create(String name, int price,
                                      int storageSpace, String color, boolean hasESim) {
         try (Connection connection = DatabaseManager.getConnection()) {
-
-            ResultSet seq = connection.prepareStatement("SELECT SEQ_DEVICE_ID.NEXTVAL FROM DUAL").executeQuery();
-            seq.next();
-            int deviceID = seq.getInt(1);
-
             PreparedStatement statement = connection.prepareStatement(
-                    "INSERT INTO MOBILE_PHONES (DEVICE_ID, NAME, PRICE, STORAGE_SPACE, COLOR, HAS_ESIM) " +
-                            "VALUES (?, ?, ?, ?, ?, ?)");
-            statement.setInt(1, deviceID);
-            statement.setString(2, name);
-            statement.setInt(3, price);
-            statement.setInt(4, storageSpace);
-            statement.setString(5, color);
-            statement.setBoolean(6, hasESim);
+                    "INSERT INTO MOBILE_PHONES (NAME, PRICE, STORAGE_SPACE, COLOR, HAS_ESIM) " +
+                            "VALUES (?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+            statement.setString(1, name);
+            statement.setInt(2, price);
+            statement.setInt(3, storageSpace);
+            statement.setString(4, color);
+            statement.setBoolean(5, hasESim);
             statement.executeUpdate();
+
+            ResultSet generatedKeys = statement.getGeneratedKeys();
+            int deviceID = 0;
+            if (generatedKeys.next() == false) {
+                deviceID = generatedKeys.getInt(1);
+            }
 
             return new MobilePhone(deviceID, name, price, storageSpace, color, hasESim);
         }

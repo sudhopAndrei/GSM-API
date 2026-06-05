@@ -21,7 +21,9 @@ public class MobilePhoneController {
     @GetMapping("/{deviceID}")
     public MobilePhone findById(@PathVariable int deviceID) {
         MobilePhone phone = MobilePhoneDAO.findById(deviceID);
-        if (phone == null) return null;
+        if (phone == null) {
+            return null;
+        }
         return phone;
     }
 
@@ -32,8 +34,8 @@ public class MobilePhoneController {
 
     @PutMapping("/{deviceID}")
     public void update(@PathVariable int deviceID, @RequestBody MobilePhoneRequest req) {
-        MobilePhone updated = new MobilePhone(deviceID, req.name(), req.price(), req.storageSpace(), req.color(), req.hasESim());
-        MobilePhoneDAO.update(updated);
+        MobilePhone phone = new MobilePhone(deviceID, req.name(), req.price(), req.storageSpace(), req.color(), req.hasESim());
+        MobilePhoneDAO.update(phone);
     }
 
     @DeleteMapping("/{deviceID}")
