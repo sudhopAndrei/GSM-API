@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping( "/api/tvsubscription")
+@RequestMapping( "/api/mobilesub")
 public class MobileSubscriptionController {
     private record MobileSubscriptionRecord(String name, int contractLength, int price,
                                     int nationalMinutes, int networkGB, int internationalMinutes, boolean hasRoaming) {}

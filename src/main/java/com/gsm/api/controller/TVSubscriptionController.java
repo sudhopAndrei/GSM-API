@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping( "/api/tvsubscription")
+@RequestMapping( "/api/tvsub")
 public class TVSubscriptionController {
     record TVSubscriptionRecord(String name, int contractLength, int price,
                                 int numberOfChannels, boolean hasHDChannels, boolean hasStreamingService) {}

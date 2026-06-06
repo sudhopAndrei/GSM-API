@@ -15,7 +15,7 @@ public class TelevisionSetDAO {
                                        double diagonalInches, String resolution, boolean isSmartTv) {
         try (Connection connection = DatabaseManager.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(
-                    "INSERT INTO TELEVISION_SETS (DEVICE_ID, NAME, PRICE, DIAGONAL_INCHES, RESOLUTION, IS_SMART_TV) " +
+                    "INSERT INTO TELEVISION_SETS (NAME, PRICE, DIAGONAL_INCHES, RESOLUTION, IS_SMART_TV) " +
                             "VALUES (?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, name);
             statement.setInt(2, price);

@@ -16,7 +16,7 @@ public class TVSubscriptionDAO {
                                         boolean hasStreamingService) {
         try (Connection connection = DatabaseManager.getConnection()) {
     PreparedStatement statement = connection.prepareStatement(
-                    "INSERT INTO TV_SUBSCRIPTIONS (SUBSCRIPTION_ID, NAME, CONTRACT_LENGTH, PRICE, " +
+                    "INSERT INTO TV_SUBSCRIPTIONS (NAME, CONTRACT_LENGTH, PRICE, " +
                             "NUMBER_OF_CHANNELS, HAS_HD_CHANNELS, HAS_STREAMING_SERVICE) " +
                             "VALUES (?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, name);

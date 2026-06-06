@@ -17,7 +17,7 @@ public class PersonDAO {
                                 LocalDate joinDate, String IBAN) {
         try (Connection connection = DatabaseManager.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(
-                    "INSERT INTO PERSONS (USER_ID, NAME, EMAIL, PHONE_NUMBER, JOIN_DATE, IBAN) " +
+                    "INSERT INTO PERSONS (NAME, EMAIL, PHONE_NUMBER, JOIN_DATE, IBAN) " +
                             "VALUES (?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, name);
             statement.setString(2, email);

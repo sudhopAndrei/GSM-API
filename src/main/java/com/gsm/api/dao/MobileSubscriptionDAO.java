@@ -16,7 +16,7 @@ public class MobileSubscriptionDAO {
                                             int internationalMinutes, boolean hasRoaming) {
         try (Connection connection = DatabaseManager.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(
-                    "INSERT INTO MOBILE_SUBSCRIPTIONS (SUBSCRIPTION_ID, NAME, CONTRACT_LENGTH, PRICE, " +
+                    "INSERT INTO MOBILE_SUBSCRIPTIONS (NAME, CONTRACT_LENGTH, PRICE, " +
                             "NATIONAL_MINUTES, NETWORK_GB, INTERNATIONAL_MINUTES, HAS_ROAMING) " +
                             "VALUES (?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, name);

@@ -16,7 +16,7 @@ public class InternetSubscriptionDAO {
                                               boolean isFiberOptic, boolean hasRouter) {
         try (Connection connection = DatabaseManager.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(
-                    "INSERT INTO INTERNET_SUBSCRIPTIONS (SUBSCRIPTION_ID, NAME, CONTRACT_LENGTH, PRICE, " +
+                    "INSERT INTO INTERNET_SUBSCRIPTIONS (NAME, CONTRACT_LENGTH, PRICE, " +
                             "DOWNLOAD_SPEED_MBPS, UPLOAD_SPEED_MBPS, IS_FIBER_OPTIC, HAS_ROUTER) " +
                             "VALUES (?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, name);
