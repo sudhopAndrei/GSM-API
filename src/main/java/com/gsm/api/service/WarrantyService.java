@@ -1,18 +1,17 @@
 package com.gsm.api.service;
 
 import com.gsm.api.dao.PersonDAO;
-import com.gsm.api.model.devices.Device;
-import com.gsm.api.model.interfaces.Billable;
-import com.gsm.api.model.interfaces.Warrantable;
-import com.gsm.api.model.purchases.Purchase;
-import com.gsm.api.model.subscriptions.InternetSubscription;
-import com.gsm.api.model.users.Customer;
+import com.gsm.api.model.Device;
+import com.gsm.api.interfaces.Billable;
+import com.gsm.api.interfaces.Warrantable;
+import com.gsm.api.model.Purchase;
+import com.gsm.api.model.InternetSubscription;
+import com.gsm.api.model.Customer;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class WarrantyService {
     private WarrantyService() {};

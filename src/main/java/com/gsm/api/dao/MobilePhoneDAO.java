@@ -1,6 +1,6 @@
 package com.gsm.api.dao;
 
-import com.gsm.api.model.devices.MobilePhone;
+import com.gsm.api.model.MobilePhone;
 import com.gsm.api.db.DatabaseManager;
 
 import java.sql.*;
@@ -24,10 +24,10 @@ public class MobilePhoneDAO {
             statement.setBoolean(5, hasESim);
             statement.executeUpdate();
 
-            ResultSet generatedKeys = statement.getGeneratedKeys();
+            ResultSet rs = statement.getGeneratedKeys();
             int deviceID = 0;
-            if (generatedKeys.next() == false) {
-                deviceID = generatedKeys.getInt(1);
+            if (rs.next() == true) {
+                deviceID = rs.getInt(1);
             }
 
             return new MobilePhone(deviceID, name, price, storageSpace, color, hasESim);

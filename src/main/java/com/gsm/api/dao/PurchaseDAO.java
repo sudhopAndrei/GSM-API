@@ -1,7 +1,7 @@
 package com.gsm.api.dao;
 
-import com.gsm.api.model.interfaces.Billable;
-import com.gsm.api.model.purchases.Purchase;
+import com.gsm.api.interfaces.Billable;
+import com.gsm.api.model.Purchase;
 import com.gsm.api.db.DatabaseManager;
 
 import java.sql.*;
@@ -36,20 +36,21 @@ public class PurchaseDAO {
     //insert
     public static Purchase create(int userID, Billable item, LocalDate date) {
         try (Connection connection = DatabaseManager.getConnection()) {
-
-            ResultSet seq = connection.prepareStatement("SELECT SEQ_PURCHASE_ID.NEXTVAL FROM DUAL").executeQuery();
-            seq.next();
-            int purchaseID = seq.getInt(1);
-
             PreparedStatement statement = connection.prepareStatement(
                     "INSERT INTO PURCHASES (PURCHASE_ID, USER_ID, ITEM_ID, ITEM_TYPE, PURCHASE_DATE) " +
-                            "VALUES (?, ?, ?, ?, ?)");
-            statement.setInt(1, purchaseID);
-            statement.setInt(2, userID);
-            statement.setInt(3, item.getBillableID());
-            statement.setString(4, item.getTypeIdentifier());
-            statement.setDate(5, Date.valueOf(date));
+                            "VALUES (?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+            statement.setInt(1, userID);
+            statement.setInt(2, item.getBillableID());
+            statement.setString(3, item.getTypeIdentifier());
+            statement.setDate(4, Date.valueOf(date));
             statement.executeUpdate();
+
+            ResultSet rs = statement.getGeneratedKeys();
+            int purchaseID = 0;
+
+            if (rs.next() == true) {
+                purchaseID = rs.getInt(1);
+            }
 
             Purchase purchase = new Purchase(purchaseID, userID, item.getBillableID(), item.getTypeIdentifier(), date);
             purchase.setItem(itemResolver(item.getBillableID(), item.getTypeIdentifier()));

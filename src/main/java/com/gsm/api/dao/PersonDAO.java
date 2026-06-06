@@ -1,8 +1,8 @@
 package com.gsm.api.dao;
 
-import com.gsm.api.model.users.Person;
+import com.gsm.api.model.Person;
 import com.gsm.api.db.DatabaseManager;
-import com.gsm.api.model.purchases.Purchase;
+import com.gsm.api.model.Purchase;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -16,21 +16,22 @@ public class PersonDAO {
     public static Person create(String name, String email, String phoneNumber,
                                 LocalDate joinDate, String IBAN) {
         try (Connection connection = DatabaseManager.getConnection()) {
-
-            ResultSet seq = connection.prepareStatement("SELECT SEQ_USER_ID.NEXTVAL FROM DUAL").executeQuery();
-            seq.next();
-            int userID = seq.getInt(1);
-
             PreparedStatement statement = connection.prepareStatement(
                     "INSERT INTO PERSONS (USER_ID, NAME, EMAIL, PHONE_NUMBER, JOIN_DATE, IBAN) " +
-                            "VALUES (?, ?, ?, ?, ?, ?)");
-            statement.setInt(1, userID);
-            statement.setString(2, name);
-            statement.setString(3, email);
-            statement.setString(4, phoneNumber);
-            statement.setDate(5, Date.valueOf(joinDate));
-            statement.setString(6, IBAN);
+                            "VALUES (?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+            statement.setString(1, name);
+            statement.setString(2, email);
+            statement.setString(3, phoneNumber);
+            statement.setDate(4, Date.valueOf(joinDate));
+            statement.setString(5, IBAN);
             statement.executeUpdate();
+
+            ResultSet rs = statement.getGeneratedKeys();
+            int userID = 0;
+
+            if(rs.next() == true) {
+                userID = rs.getInt(1);
+            }
 
             //returnam persoana cu id-ul schimbat din secventa
             return new Person(userID, name, email, phoneNumber, joinDate, IBAN);

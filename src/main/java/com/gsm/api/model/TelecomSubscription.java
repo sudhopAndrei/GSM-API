@@ -1,6 +1,6 @@
-package com.gsm.api.model.subscriptions;
+package com.gsm.api.model;
 
-import com.gsm.api.model.interfaces.Billable;
+import com.gsm.api.interfaces.Billable;
 
 public abstract class TelecomSubscription implements Billable {
     private final int subscriptionID;

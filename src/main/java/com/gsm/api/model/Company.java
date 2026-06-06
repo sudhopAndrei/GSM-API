@@ -1,7 +1,4 @@
-package com.gsm.api.model.users;
-
-import com.gsm.api.model.interfaces.Billable;
-import com.gsm.api.model.purchases.Purchase;
+package com.gsm.api.model;
 
 import java.time.LocalDate;
 

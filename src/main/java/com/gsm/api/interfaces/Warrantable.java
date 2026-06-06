@@ -1,4 +1,4 @@
-package com.gsm.api.model.interfaces;
+package com.gsm.api.interfaces;
 
 public interface Warrantable {
     int calculateWarranty();

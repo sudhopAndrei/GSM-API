@@ -1,4 +1,4 @@
-package com.gsm.api.model.subscriptions;
+package com.gsm.api.model;
 
 public class TVSubscription extends TelecomSubscription {
     private int numberOfChannels;

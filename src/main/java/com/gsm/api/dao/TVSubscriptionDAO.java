@@ -1,6 +1,6 @@
 package com.gsm.api.dao;
 
-import com.gsm.api.model.subscriptions.TVSubscription;
+import com.gsm.api.model.TVSubscription;
 import com.gsm.api.db.DatabaseManager;
 
 import java.sql.*;
@@ -15,23 +15,24 @@ public class TVSubscriptionDAO {
                                         int numberOfChannels, boolean hasHDChannels,
                                         boolean hasStreamingService) {
         try (Connection connection = DatabaseManager.getConnection()) {
-
-            ResultSet seq = connection.prepareStatement("SELECT SEQ_SUBSCRIPTION_ID.NEXTVAL FROM DUAL").executeQuery();
-            seq.next();
-            int subscriptionID = seq.getInt(1);
-
-            PreparedStatement statement = connection.prepareStatement(
+    PreparedStatement statement = connection.prepareStatement(
                     "INSERT INTO TV_SUBSCRIPTIONS (SUBSCRIPTION_ID, NAME, CONTRACT_LENGTH, PRICE, " +
                             "NUMBER_OF_CHANNELS, HAS_HD_CHANNELS, HAS_STREAMING_SERVICE) " +
-                            "VALUES (?, ?, ?, ?, ?, ?, ?)");
-            statement.setInt(1, subscriptionID);
-            statement.setString(2, name);
-            statement.setInt(3, contractLength);
-            statement.setInt(4, price);
-            statement.setInt(5, numberOfChannels);
-            statement.setBoolean(6, hasHDChannels);
-            statement.setBoolean(7, hasStreamingService);
+                            "VALUES (?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+            statement.setString(1, name);
+            statement.setInt(2, contractLength);
+            statement.setInt(3, price);
+            statement.setInt(4, numberOfChannels);
+            statement.setBoolean(5, hasHDChannels);
+            statement.setBoolean(6, hasStreamingService);
             statement.executeUpdate();
+
+            ResultSet rs = statement.getGeneratedKeys();
+            int subscriptionID = 0;
+
+            if (rs.next() == true) {
+                subscriptionID = rs.getInt(1);
+            }
 
             return new TVSubscription(subscriptionID, name, contractLength, price,
                     numberOfChannels, hasHDChannels, hasStreamingService);

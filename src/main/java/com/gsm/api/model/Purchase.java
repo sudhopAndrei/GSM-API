@@ -1,7 +1,8 @@
-package com.gsm.api.model.purchases;
+package com.gsm.api.model;
+
+import com.gsm.api.interfaces.Billable;
 
 import java.time.LocalDate;
-import com.gsm.api.model.interfaces.Billable;
 
 public class Purchase {
     private final int purchaseID;

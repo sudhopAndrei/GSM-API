@@ -1,8 +1,7 @@
 package com.gsm.api.controller;
 
 import com.gsm.api.dao.MobilePhoneDAO;
-import com.gsm.api.model.devices.MobilePhone;
-import org.springframework.http.ResponseEntity;
+import com.gsm.api.model.MobilePhone;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,11 +19,7 @@ public class MobilePhoneController {
 
     @GetMapping("/{deviceID}")
     public MobilePhone findById(@PathVariable int deviceID) {
-        MobilePhone phone = MobilePhoneDAO.findById(deviceID);
-        if (phone == null) {
-            return null;
-        }
-        return phone;
+        return MobilePhoneDAO.findById(deviceID);
     }
 
     @PostMapping

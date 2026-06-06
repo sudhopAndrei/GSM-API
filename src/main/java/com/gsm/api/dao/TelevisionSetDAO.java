@@ -1,6 +1,6 @@
 package com.gsm.api.dao;
 
-import com.gsm.api.model.devices.TelevisionSet;
+import com.gsm.api.model.TelevisionSet;
 import com.gsm.api.db.DatabaseManager;
 
 import java.sql.*;
@@ -14,21 +14,21 @@ public class TelevisionSetDAO {
     public static TelevisionSet create(String name, int price,
                                        double diagonalInches, String resolution, boolean isSmartTv) {
         try (Connection connection = DatabaseManager.getConnection()) {
-
-            ResultSet seq = connection.prepareStatement("SELECT SEQ_DEVICE_ID.NEXTVAL FROM DUAL").executeQuery();
-            seq.next();
-            int deviceID = seq.getInt(1);
-
             PreparedStatement statement = connection.prepareStatement(
                     "INSERT INTO TELEVISION_SETS (DEVICE_ID, NAME, PRICE, DIAGONAL_INCHES, RESOLUTION, IS_SMART_TV) " +
-                            "VALUES (?, ?, ?, ?, ?, ?)");
-            statement.setInt(1, deviceID);
-            statement.setString(2, name);
-            statement.setInt(3, price);
-            statement.setDouble(4, diagonalInches);
-            statement.setString(5, resolution);
-            statement.setBoolean(6, isSmartTv);
+                            "VALUES (?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+            statement.setString(1, name);
+            statement.setInt(2, price);
+            statement.setDouble(3, diagonalInches);
+            statement.setString(4, resolution);
+            statement.setBoolean(5, isSmartTv);
             statement.executeUpdate();
+
+            ResultSet rs = statement.getGeneratedKeys();
+            int deviceID = 0;
+            if (rs.next() == true) {
+                deviceID = rs.getInt(1);
+            }
 
             return new TelevisionSet(deviceID, name, price, diagonalInches, resolution, isSmartTv);
         }

@@ -1,6 +1,6 @@
-package com.gsm.api.model.subscriptions;
+package com.gsm.api.model;
 
-import com.gsm.api.model.interfaces.Warrantable;
+import com.gsm.api.interfaces.Warrantable;
 
 public class InternetSubscription extends TelecomSubscription implements Warrantable {
     private int downloadSpeedMbps;

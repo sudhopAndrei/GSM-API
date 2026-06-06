@@ -1,6 +1,5 @@
-package com.gsm.api.model.users;
+package com.gsm.api.model;
 
-import com.gsm.api.model.purchases.Purchase;
 import java.time.LocalDate;
 
 public class Person extends Customer {

@@ -1,10 +1,7 @@
 package com.gsm.api.controller;
 
-import com.gsm.api.dao.MobilePhoneDAO;
 import com.gsm.api.dao.TelevisionSetDAO;
-import com.gsm.api.model.devices.MobilePhone;
-import com.gsm.api.model.devices.TelevisionSet;
-import org.springframework.http.ResponseEntity;
+import com.gsm.api.model.TelevisionSet;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,11 +15,7 @@ public class TelevisionSetController {
 
     @GetMapping("/{deviceID}")
     public TelevisionSet findByID(@PathVariable int deviceID) {
-        TelevisionSet tvset = TelevisionSetDAO.findById(deviceID);
-        if (tvset == null) {
-            return null;
-        }
-        return tvset;
+        return TelevisionSetDAO.findById(deviceID);
     }
 
     @PostMapping

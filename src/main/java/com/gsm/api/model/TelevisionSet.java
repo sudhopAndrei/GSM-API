@@ -1,4 +1,4 @@
-package com.gsm.api.model.devices;
+package com.gsm.api.model;
 
 public class TelevisionSet extends Device {
     private final double diagonalInches;

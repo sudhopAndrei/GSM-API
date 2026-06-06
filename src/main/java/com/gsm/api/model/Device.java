@@ -1,7 +1,7 @@
-package com.gsm.api.model.devices;
+package com.gsm.api.model;
 
-import com.gsm.api.model.interfaces.Billable;
-import com.gsm.api.model.interfaces.Warrantable;
+import com.gsm.api.interfaces.Billable;
+import com.gsm.api.interfaces.Warrantable;
 
 public abstract class Device implements Billable, Warrantable {
     private final int deviceID;

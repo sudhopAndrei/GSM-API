@@ -1,4 +1,4 @@
-package com.gsm.api.model.users;
+package com.gsm.api.model;
 
 import java.time.*;
 

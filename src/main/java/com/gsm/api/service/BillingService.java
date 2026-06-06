@@ -1,16 +1,13 @@
 package com.gsm.api.service;
 
 import com.gsm.api.dao.PersonDAO;
-import com.gsm.api.model.devices.Device;
-import com.gsm.api.model.interfaces.Billable;
-import com.gsm.api.model.purchases.Purchase;
-import com.gsm.api.model.subscriptions.TelecomSubscription;
-import com.gsm.api.model.users.Customer;
-import com.gsm.api.model.users.Person;
+import com.gsm.api.model.Device;
+import com.gsm.api.model.Purchase;
+import com.gsm.api.model.TelecomSubscription;
+import com.gsm.api.model.Customer;
 
 import java.time.*;
 import java.time.temporal.ChronoUnit;
-import java.util.Map;
 
 public class BillingService {
     private BillingService() {};

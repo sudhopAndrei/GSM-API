@@ -1,6 +1,6 @@
 package com.gsm.api.dao;
 
-import com.gsm.api.model.subscriptions.MobileSubscription;
+import com.gsm.api.model.MobileSubscription;
 import com.gsm.api.db.DatabaseManager;
 
 import java.sql.*;
@@ -15,24 +15,25 @@ public class MobileSubscriptionDAO {
                                             int nationalMinutes, int networkGB,
                                             int internationalMinutes, boolean hasRoaming) {
         try (Connection connection = DatabaseManager.getConnection()) {
-
-            ResultSet seq = connection.prepareStatement("SELECT SEQ_SUBSCRIPTION_ID.NEXTVAL FROM DUAL").executeQuery();
-            seq.next();
-            int subscriptionID = seq.getInt(1);
-
             PreparedStatement statement = connection.prepareStatement(
                     "INSERT INTO MOBILE_SUBSCRIPTIONS (SUBSCRIPTION_ID, NAME, CONTRACT_LENGTH, PRICE, " +
                             "NATIONAL_MINUTES, NETWORK_GB, INTERNATIONAL_MINUTES, HAS_ROAMING) " +
-                            "VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-            statement.setInt(1, subscriptionID);
-            statement.setString(2, name);
-            statement.setInt(3, contractLength);
-            statement.setInt(4, price);
-            statement.setInt(5, nationalMinutes);
-            statement.setInt(6, networkGB);
-            statement.setInt(7, internationalMinutes);
-            statement.setBoolean(8, hasRoaming);
+                            "VALUES (?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+            statement.setString(1, name);
+            statement.setInt(2, contractLength);
+            statement.setInt(3, price);
+            statement.setInt(4, nationalMinutes);
+            statement.setInt(5, networkGB);
+            statement.setInt(6, internationalMinutes);
+            statement.setBoolean(7, hasRoaming);
             statement.executeUpdate();
+
+            ResultSet rs = statement.getGeneratedKeys();
+            int subscriptionID = 0;
+
+            if (rs.next() == true) {
+                subscriptionID = rs.getInt(1);
+            }
 
             return new MobileSubscription(subscriptionID, name, contractLength, price,
                     nationalMinutes, networkGB, internationalMinutes, hasRoaming);

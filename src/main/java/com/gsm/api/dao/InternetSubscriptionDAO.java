@@ -1,12 +1,11 @@
 package com.gsm.api.dao;
 
-import com.gsm.api.model.subscriptions.InternetSubscription;
+import com.gsm.api.model.InternetSubscription;
 import com.gsm.api.db.DatabaseManager;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class InternetSubscriptionDAO {
     private InternetSubscriptionDAO() {}
@@ -16,24 +15,25 @@ public class InternetSubscriptionDAO {
                                               int downloadSpeedMbps, int uploadSpeedMbps,
                                               boolean isFiberOptic, boolean hasRouter) {
         try (Connection connection = DatabaseManager.getConnection()) {
-
-            ResultSet seq = connection.prepareStatement("SELECT SEQ_SUBSCRIPTION_ID.NEXTVAL FROM DUAL").executeQuery();
-            seq.next();
-            int subscriptionID = seq.getInt(1);
-
             PreparedStatement statement = connection.prepareStatement(
                     "INSERT INTO INTERNET_SUBSCRIPTIONS (SUBSCRIPTION_ID, NAME, CONTRACT_LENGTH, PRICE, " +
                             "DOWNLOAD_SPEED_MBPS, UPLOAD_SPEED_MBPS, IS_FIBER_OPTIC, HAS_ROUTER) " +
-                            "VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-            statement.setInt(1, subscriptionID);
-            statement.setString(2, name);
-            statement.setInt(3, contractLength);
-            statement.setInt(4, price);
-            statement.setInt(5, downloadSpeedMbps);
-            statement.setInt(6, uploadSpeedMbps);
-            statement.setBoolean(7, isFiberOptic);
-            statement.setBoolean(8, hasRouter);
+                            "VALUES (?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+            statement.setString(1, name);
+            statement.setInt(2, contractLength);
+            statement.setInt(3, price);
+            statement.setInt(4, downloadSpeedMbps);
+            statement.setInt(5, uploadSpeedMbps);
+            statement.setBoolean(6, isFiberOptic);
+            statement.setBoolean(7, hasRouter);
             statement.executeUpdate();
+
+            ResultSet rs = statement.getGeneratedKeys();
+            int subscriptionID = 0;
+
+            if (rs.next() == true) {
+                subscriptionID = rs.getInt(1);
+            }
 
             return new InternetSubscription(subscriptionID, name, contractLength, price,
                     downloadSpeedMbps, uploadSpeedMbps, isFiberOptic, hasRouter);

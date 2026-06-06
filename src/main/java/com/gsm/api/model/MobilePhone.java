@@ -1,4 +1,4 @@
-package com.gsm.api.model.devices;
+package com.gsm.api.model;
 
 public class MobilePhone extends Device{
 
