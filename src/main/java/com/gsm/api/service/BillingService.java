@@ -71,7 +71,11 @@ public class BillingService {
 
     //"realizeaza o tranzactie" - adauga o achizitie in baza de date
     public static void makePurchase(int userID, int itemID, String itemType) {
-        PurchaseDAO.create(userID, itemID, itemType, LocalDate.now());
+        Person person = PersonDAO.findById(userID);
+        Purchase purchase = PurchaseDAO.create(userID, itemID, itemType, LocalDate.now());
+        
+        person.addPurchase(purchase);
+        PersonDAO.update(person);
     }
 
 
