@@ -21,4 +21,9 @@ public class BillingController {
     public int cancellationPenalty(@PathVariable int userID, @PathVariable int subscriptionID) {
         return BillingService.cancellationPenalty(userID, subscriptionID);
     }
+
+    @PostMapping("/purchase/{userID}/{itemID}/{itemType}")
+    public void purchase(@PathVariable int userID, @PathVariable int itemID, @PathVariable String itemType) {
+        BillingService.makePurchase(userID, itemID, itemType);
+    }
 }

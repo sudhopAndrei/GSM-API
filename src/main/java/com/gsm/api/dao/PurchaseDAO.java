@@ -34,14 +34,14 @@ public class PurchaseDAO {
     }
 
     //insert
-    public static Purchase create(int userID, Billable item, LocalDate date) {
+    public static Purchase create(int userID, int itemID, String itemType, LocalDate date) {
         try (Connection connection = DatabaseManager.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(
-                    "INSERT INTO PURCHASES (PURCHASE_ID, USER_ID, ITEM_ID, ITEM_TYPE, PURCHASE_DATE) " +
+                    "INSERT INTO PURCHASES (USER_ID, ITEM_ID, ITEM_TYPE, PURCHASE_DATE) " +
                             "VALUES (?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
             statement.setInt(1, userID);
-            statement.setInt(2, item.getBillableID());
-            statement.setString(3, item.getTypeIdentifier());
+            statement.setInt(2, itemID);
+            statement.setString(3, itemType);
             statement.setDate(4, Date.valueOf(date));
             statement.executeUpdate();
 
@@ -52,8 +52,8 @@ public class PurchaseDAO {
                 purchaseID = rs.getInt(1);
             }
 
-            Purchase purchase = new Purchase(purchaseID, userID, item.getBillableID(), item.getTypeIdentifier(), date);
-            purchase.setItem(itemResolver(item.getBillableID(), item.getTypeIdentifier()));
+            Purchase purchase = new Purchase(purchaseID, userID, itemID, itemType, date);
+            purchase.setItem(itemResolver(itemID, itemType));
             return purchase;
         }
         catch (SQLException e) {

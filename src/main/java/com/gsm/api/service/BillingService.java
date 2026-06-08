@@ -1,6 +1,8 @@
 package com.gsm.api.service;
 
 import com.gsm.api.dao.PersonDAO;
+import com.gsm.api.dao.PurchaseDAO;
+import com.gsm.api.interfaces.Billable;
 import com.gsm.api.model.Device;
 import com.gsm.api.model.Purchase;
 import com.gsm.api.model.TelecomSubscription;
@@ -65,6 +67,11 @@ public class BillingService {
         }
 
         return penaltyCost;
+    }
+
+    //"realizeaza o tranzactie" - adauga o achizitie in baza de date
+    public static void makePurchase(int userID, int itemID, String itemType) {
+        PurchaseDAO.create(userID, itemID, itemType, LocalDate.now());
     }
 
 
