@@ -18,12 +18,38 @@ public class TelevisionSet extends Device {
 
     @Override
     public int calculateCost() {
-        return 0;
+        int addOn = 0;
+        int deviceCost = this.getPrice();
+
+        if (diagonalInches <= 32) {
+            addOn += 200;
+        } else if (diagonalInches <= 43) {
+            addOn += 400;
+        } else if (diagonalInches <= 55) {
+            addOn = 650;
+        } else {
+            addOn= 1000;
+        }
+
+        if (resolution.equals("4K")) {
+            addOn += 300;
+        }
+
+        if (isSmartTv == true) {
+            addOn += 150;
+        }
+
+        deviceCost += addOn;
+
+        return deviceCost;
     }
 
     @Override
     public int calculateWarranty() {
-        return 0;
+        if (isSmartTv == true|| diagonalInches > 55) {
+            return 24;
+        }
+        return 12;
     }
 
     //gettere

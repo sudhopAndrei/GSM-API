@@ -22,6 +22,7 @@ public class Purchase {
     }
 
     //gettere
+    public int getPurchaseID() {return this.purchaseID;}
     public LocalDate getDate() {return this.date;}
 
     //get + set pt item

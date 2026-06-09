@@ -18,12 +18,34 @@ public class MobilePhone extends Device{
 
     @Override
     public int calculateCost() {
-        return 0;
+        int addOn = 0;
+        int deviceCost = this.getPrice();
+
+        if (storageSpace <= 128) {
+            addOn += 250;
+        } else if (storageSpace <= 256) {
+            addOn += 450;
+        } else if (storageSpace <= 512) {
+            addOn += 700;
+        } else {
+            addOn += 1000;
+        }
+
+        if (hasESim == true) {
+            addOn += 200;
+        }
+
+        deviceCost += addOn;
+
+        return deviceCost;
     }
 
     @Override
     public int calculateWarranty() {
-        return 0;
+        if (hasESim == true) {
+            return 24;
+        }
+        return 12;
     }
 
     //gettere

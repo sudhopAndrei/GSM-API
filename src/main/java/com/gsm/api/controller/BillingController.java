@@ -26,4 +26,19 @@ public class BillingController {
     public void purchase(@PathVariable int userID, @PathVariable int itemID, @PathVariable String itemType) {
         BillingService.makePurchase(userID, itemID, itemType);
     }
+
+    @GetMapping("/totalspent/{userID}")
+    public int totalSpent(@PathVariable int userID) {
+        return BillingService.totalSpent(userID);
+    }
+
+    @GetMapping("/reedeempoints/{userID}/{numberOfPoints}")
+    public int redeemPoints(@PathVariable int userID, @PathVariable int numberOfPoints) {
+        return BillingService.redeemPoints(userID, numberOfPoints);
+    }
+
+    @GetMapping("/tier/{userID}")
+    public String getUserTier(@PathVariable int userID) {
+        return BillingService.getUserTier(userID);
+    }
 }

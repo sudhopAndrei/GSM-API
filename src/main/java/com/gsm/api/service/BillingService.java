@@ -74,4 +74,45 @@ public class BillingService {
         person.addPurchase(purchase);
         PersonDAO.update(person);
     }
+
+    // suma totala cheltuita pe device-uri de catre un client
+    public static int totalSpent(int userID) {
+        Customer customer = PersonDAO.findById(userID);
+
+        int total = 0;
+
+        for (Purchase purchase : customer.getPurchases()) {
+            if (purchase.getItem() instanceof Device) {
+                total += purchase.getItem().calculateCost();
+            }
+        }
+
+        return total;
+    }
+
+    //scade punctele clientului si intoarce valoare voucherului
+    public static int redeemPoints(int userID, int pointsToRedeem) {
+        Person person = PersonDAO.findById(userID);
+
+        if (person.getLoyaltyPoints() < pointsToRedeem) {
+            return -1;
+        }
+
+        int value = pointsToRedeem / 2;
+
+        person.addLoyaltyPoints(-pointsToRedeem);
+        PersonDAO.update(person);
+
+        return value;
+    }
+
+    //arata categoria clientului in functie de vechimea lui in sistem
+    public static String getUserTier(int userID) {
+        Person person = PersonDAO.findById(userID);
+
+        long years = person.calculateTenure();
+        if (years >= 10) return "Gold";
+        if (years >= 3)  return "Silver";
+        return "Bronze";
+    }
 }
