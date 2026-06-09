@@ -13,6 +13,8 @@ public class BillingService {
 
     //calculul facturii lunare
     public static double recurringMonthlyBill (int userID) {
+        AuditService.getServiceInstance().logAction("recurringMonthlyBill");
+
         Customer customer = PersonDAO.findById(userID);
 
         double totalCost = 0;
@@ -21,7 +23,7 @@ public class BillingService {
             if (purchase.getItem() instanceof TelecomSubscription &&
                     ChronoUnit.MONTHS.between(purchase.getDate(), LocalDate.now()) <
                             (((TelecomSubscription) purchase.getItem()).getContractLength())) {
-                totalCost = totalCost + purchase.getItem().calculateCost();
+                totalCost = totalCost + purchase.getItem().getPrice();
             }
         }
 
@@ -30,6 +32,8 @@ public class BillingService {
 
     //calculul achizitiilor one-time in ultima luna (30 de zile)
     public static double lastMonthBill (int userID) {
+        AuditService.getServiceInstance().logAction("lastMonthBill");
+
         Customer customer = PersonDAO.findById(userID);
 
         double totalCost = 0;
@@ -37,7 +41,7 @@ public class BillingService {
         for (Purchase purchase : customer.getPurchases()) {
             if (purchase.getItem() instanceof Device &&
                     ChronoUnit.DAYS.between(purchase.getDate(), LocalDate.now()) < 30) {
-                totalCost = totalCost + purchase.getItem().calculateCost();
+                totalCost = totalCost + purchase.getItem().getPrice();
             }
         }
 
@@ -46,6 +50,8 @@ public class BillingService {
 
     //calculul penalizarii in cazul anularii unui abonament
     public static int cancellationPenalty(int userID, int subscriptionID) {
+        AuditService.getServiceInstance().logAction("cancellationPenalty");
+
         Customer customer = PersonDAO.findById(userID);
 
         int penaltyCost = 0;
@@ -56,7 +62,7 @@ public class BillingService {
                     int remainingPeriod = subscription.getContractLength() - (int) ChronoUnit.MONTHS.between(purchase.getDate(), LocalDate.now());
 
                     if (remainingPeriod > 0) {
-                        penaltyCost = (remainingPeriod * subscription.calculateCost()) / 2;
+                        penaltyCost = (remainingPeriod * subscription.getPrice()) / 2;
                     }
                     break;
                 }
@@ -68,6 +74,8 @@ public class BillingService {
 
     //"realizeaza o tranzactie" - adauga o achizitie in baza de date
     public static void makePurchase(int userID, int itemID, String itemType) {
+        AuditService.getServiceInstance().logAction("makePurchase");
+
         Person person = PersonDAO.findById(userID);
         Purchase purchase = PurchaseDAO.create(userID, itemID, itemType, LocalDate.now());
         
@@ -77,13 +85,15 @@ public class BillingService {
 
     // suma totala cheltuita pe device-uri de catre un client
     public static int totalSpent(int userID) {
+        AuditService.getServiceInstance().logAction("totalSpent");
+
         Customer customer = PersonDAO.findById(userID);
 
         int total = 0;
 
         for (Purchase purchase : customer.getPurchases()) {
             if (purchase.getItem() instanceof Device) {
-                total += purchase.getItem().calculateCost();
+                total += purchase.getItem().getPrice();
             }
         }
 
@@ -92,6 +102,8 @@ public class BillingService {
 
     //scade punctele clientului si intoarce valoare voucherului
     public static int redeemPoints(int userID, int pointsToRedeem) {
+        AuditService.getServiceInstance().logAction("redeemPoints");
+
         Person person = PersonDAO.findById(userID);
 
         if (person.getLoyaltyPoints() < pointsToRedeem) {
@@ -108,6 +120,8 @@ public class BillingService {
 
     //arata categoria clientului in functie de vechimea lui in sistem
     public static String getUserTier(int userID) {
+        AuditService.getServiceInstance().logAction("getUserTier");
+
         Person person = PersonDAO.findById(userID);
 
         long years = person.calculateTenure();

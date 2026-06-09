@@ -15,6 +15,8 @@ public class WarrantyService {
 
     //produse cu garantie activa pentru un client
     public static List<Billable> activeWarranties(int userID) {
+        AuditService.getServiceInstance().logAction("activeWarranties");
+
         Customer customer = PersonDAO.findById(userID);
 
         List<Billable> warranties = new ArrayList<>();
@@ -35,6 +37,8 @@ public class WarrantyService {
 
     // returneaza numarul de luni ramase din garantie sau -1 daca a expirat
     public static int remainingWarrantyMonths(int userID, int purchaseIdentifier) {
+        AuditService.getServiceInstance().logAction("remainingWarrantyMonths");
+
         Customer customer = PersonDAO.findById(userID);
 
         for (Purchase purchase : customer.getPurchases()) {
@@ -57,6 +61,8 @@ public class WarrantyService {
 
     // returneaza abonamentele activeale unui client
     public static List<Billable> activeSubscriptions(int userID) {
+        AuditService.getServiceInstance().logAction("activeSubscriptions");
+
         Customer customer = PersonDAO.findById(userID);
 
         List<Billable> active = new ArrayList<>();
