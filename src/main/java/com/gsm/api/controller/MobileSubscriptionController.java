@@ -9,7 +9,7 @@ import java.util.List;
 @RestController
 @RequestMapping( "/api/mobilesub")
 public class MobileSubscriptionController {
-    private record MobileSubscriptionRecord(String name, int contractLength, int price,
+    private record MobileSubscriptionRecord(String name, int contractLength,
                                     int nationalMinutes, int networkGB, int internationalMinutes, boolean hasRoaming) {}
 
     @GetMapping
@@ -22,13 +22,13 @@ public class MobileSubscriptionController {
 
     @PostMapping
     public MobileSubscription create(@RequestBody MobileSubscriptionRecord req) {
-        return MobileSubscriptionDAO.create(req.name, req.contractLength, req.price, req.nationalMinutes,
+        return MobileSubscriptionDAO.create(req.name, req.contractLength, req.nationalMinutes,
                 req.networkGB, req.internationalMinutes, req.hasRoaming);
     }
 
     @PutMapping("/{subscriptionID}")
     public void update(@PathVariable int subscriptionID, @RequestBody MobileSubscriptionRecord req) {
-        MobileSubscription tvsub = new MobileSubscription(subscriptionID, req.name, req.contractLength, req.price,
+        MobileSubscription tvsub = new MobileSubscription(subscriptionID, req.name, req.contractLength,
                 req.nationalMinutes, req.networkGB, req.internationalMinutes, req.hasRoaming);
         MobileSubscriptionDAO.update(tvsub);
     }

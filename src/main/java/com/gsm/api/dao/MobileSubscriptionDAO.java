@@ -11,21 +11,20 @@ public class MobileSubscriptionDAO {
     private MobileSubscriptionDAO() {}
 
     //insert
-    public static MobileSubscription create(String name, int contractLength, int price,
+    public static MobileSubscription create(String name, int contractLength,
                                             int nationalMinutes, int networkGB,
                                             int internationalMinutes, boolean hasRoaming) {
         try (Connection connection = DatabaseManager.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(
-                    "INSERT INTO MOBILE_SUBSCRIPTIONS (NAME, CONTRACT_LENGTH, PRICE, " +
+                    "INSERT INTO MOBILE_SUBSCRIPTIONS (NAME, CONTRACT_LENGTH, " +
                             "NATIONAL_MINUTES, NETWORK_GB, INTERNATIONAL_MINUTES, HAS_ROAMING) " +
-                            "VALUES (?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+                            "VALUES (?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, name);
             statement.setInt(2, contractLength);
-            statement.setInt(3, price);
-            statement.setInt(4, nationalMinutes);
-            statement.setInt(5, networkGB);
-            statement.setInt(6, internationalMinutes);
-            statement.setBoolean(7, hasRoaming);
+            statement.setInt(3, nationalMinutes);
+            statement.setInt(4, networkGB);
+            statement.setInt(5, internationalMinutes);
+            statement.setBoolean(6, hasRoaming);
             statement.executeUpdate();
 
             ResultSet rs = statement.getGeneratedKeys();
@@ -35,8 +34,12 @@ public class MobileSubscriptionDAO {
                 subscriptionID = rs.getInt(1);
             }
 
-            return new MobileSubscription(subscriptionID, name, contractLength, price,
+            MobileSubscription mobilesub =  new MobileSubscription(subscriptionID, name, contractLength,
                     nationalMinutes, networkGB, internationalMinutes, hasRoaming);
+
+            mobilesub.setPrice(mobilesub.calculateCost());
+
+            return mobilesub;
         }
         catch (SQLException e) {
             throw new RuntimeException(e);
@@ -56,13 +59,15 @@ public class MobileSubscriptionDAO {
 
             if (resultSet.next() == false) return null;
 
-            MobileSubscription mobileSubscription = new MobileSubscription(
+            MobileSubscription mobilesub = new MobileSubscription(
                     resultSet.getInt("SUBSCRIPTION_ID"), resultSet.getString("NAME"),
-                    resultSet.getInt("CONTRACT_LENGTH"), resultSet.getInt("PRICE"),
-                    resultSet.getInt("NATIONAL_MINUTES"), resultSet.getInt("NETWORK_GB"),
-                    resultSet.getInt("INTERNATIONAL_MINUTES"), resultSet.getBoolean("HAS_ROAMING"));
+                    resultSet.getInt("CONTRACT_LENGTH"), resultSet.getInt("NATIONAL_MINUTES"),
+                    resultSet.getInt("NETWORK_GB"), resultSet.getInt("INTERNATIONAL_MINUTES"),
+                    resultSet.getBoolean("HAS_ROAMING"));
 
-            return mobileSubscription;
+            mobilesub.setPrice(mobilesub.calculateCost());
+
+            return mobilesub;
         }
         catch (SQLException e) {
             throw new RuntimeException(e);
@@ -80,12 +85,14 @@ public class MobileSubscriptionDAO {
 
             List<MobileSubscription> mobileSubscriptions = new ArrayList<>();
             while (rs.next()) {
-                MobileSubscription mobileSubscription = new MobileSubscription(
+                MobileSubscription mobilesub = new MobileSubscription(
                         rs.getInt("SUBSCRIPTION_ID"), rs.getString("NAME"),
-                        rs.getInt("CONTRACT_LENGTH"), rs.getInt("PRICE"),
-                        rs.getInt("NATIONAL_MINUTES"), rs.getInt("NETWORK_GB"),
-                        rs.getInt("INTERNATIONAL_MINUTES"), rs.getBoolean("HAS_ROAMING"));
-                mobileSubscriptions.add(mobileSubscription);
+                        rs.getInt("CONTRACT_LENGTH"), rs.getInt("NATIONAL_MINUTES"),
+                        rs.getInt("NETWORK_GB"), rs.getInt("INTERNATIONAL_MINUTES"),
+                        rs.getBoolean("HAS_ROAMING"));
+
+                mobilesub.setPrice(mobilesub.calculateCost());
+                mobileSubscriptions.add(mobilesub);
             }
             return mobileSubscriptions;
         }

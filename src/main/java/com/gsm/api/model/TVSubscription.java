@@ -5,20 +5,14 @@ public class TVSubscription extends TelecomSubscription {
     private boolean hasHDChannels;
     private boolean hasStreamingService;
 
-    public TVSubscription(int subscriptionID, String name, int contractLength, int price,
+    public TVSubscription(int subscriptionID, String name, int contractLength,
                           int numberOfChannels, boolean hasHDChannels, boolean hasStreamingService) {
 
-        super(subscriptionID, name, contractLength, price);
+        super(subscriptionID, name, contractLength);
         this.numberOfChannels = numberOfChannels;
         this.hasHDChannels = hasHDChannels;
         this.hasStreamingService = hasStreamingService;
     }
-
-    public TVSubscription(int subscriptionID, String name, int contractLength,
-                          int numberOfChannels, boolean hasHDChannels, boolean hasStreamingService) {
-        this(subscriptionID, name, contractLength, 2, numberOfChannels, hasHDChannels, hasStreamingService);
-    }
-
 
     @Override
     public int calculateCost() {
@@ -38,13 +32,6 @@ public class TVSubscription extends TelecomSubscription {
 
         return serviceCost;
     }
-
-    //gettere
-    @Override
-    public int getBillableID() {return this.getSubscriptionID();}
-
-    @Override
-    public String getTypeIdentifier() {return "TVSubscription";}
 
     public int getNumberOfChannels() {return this.numberOfChannels;}
     public boolean getHasHDChannels() {return this.hasHDChannels;}

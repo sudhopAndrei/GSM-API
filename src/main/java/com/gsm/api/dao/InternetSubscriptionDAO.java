@@ -11,21 +11,20 @@ public class InternetSubscriptionDAO {
     private InternetSubscriptionDAO() {}
 
     //insert
-    public static InternetSubscription create(String name, int contractLength, int price,
+    public static InternetSubscription create(String name, int contractLength,
                                               int downloadSpeedMbps, int uploadSpeedMbps,
                                               boolean isFiberOptic, boolean hasRouter) {
         try (Connection connection = DatabaseManager.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(
-                    "INSERT INTO INTERNET_SUBSCRIPTIONS (NAME, CONTRACT_LENGTH, PRICE, " +
+                    "INSERT INTO INTERNET_SUBSCRIPTIONS (NAME, CONTRACT_LENGTH, " +
                             "DOWNLOAD_SPEED_MBPS, UPLOAD_SPEED_MBPS, IS_FIBER_OPTIC, HAS_ROUTER) " +
-                            "VALUES (?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+                            "VALUES (?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, name);
             statement.setInt(2, contractLength);
-            statement.setInt(3, price);
-            statement.setInt(4, downloadSpeedMbps);
-            statement.setInt(5, uploadSpeedMbps);
-            statement.setBoolean(6, isFiberOptic);
-            statement.setBoolean(7, hasRouter);
+            statement.setInt(3, downloadSpeedMbps);
+            statement.setInt(4, uploadSpeedMbps);
+            statement.setBoolean(5, isFiberOptic);
+            statement.setBoolean(6, hasRouter);
             statement.executeUpdate();
 
             ResultSet rs = statement.getGeneratedKeys();
@@ -35,8 +34,12 @@ public class InternetSubscriptionDAO {
                 subscriptionID = rs.getInt(1);
             }
 
-            return new InternetSubscription(subscriptionID, name, contractLength, price,
+            InternetSubscription internetsub = new InternetSubscription(subscriptionID, name, contractLength,
                     downloadSpeedMbps, uploadSpeedMbps, isFiberOptic, hasRouter);
+
+            internetsub.setPrice(internetsub.calculateCost());
+
+            return internetsub;
         }
         catch (SQLException e) {
             throw new RuntimeException(e);
@@ -56,13 +59,15 @@ public class InternetSubscriptionDAO {
 
             if (resultSet.next() == false) return null;
 
-            InternetSubscription internetSubscription = new InternetSubscription(
+            InternetSubscription internetsub = new InternetSubscription(
                     resultSet.getInt("SUBSCRIPTION_ID"), resultSet.getString("NAME"),
-                    resultSet.getInt("CONTRACT_LENGTH"), resultSet.getInt("PRICE"),
-                    resultSet.getInt("DOWNLOAD_SPEED_MBPS"), resultSet.getInt("UPLOAD_SPEED_MBPS"),
-                    resultSet.getBoolean("IS_FIBER_OPTIC"), resultSet.getBoolean("HAS_ROUTER"));
+                    resultSet.getInt("CONTRACT_LENGTH"), resultSet.getInt("DOWNLOAD_SPEED_MBPS"),
+                    resultSet.getInt("UPLOAD_SPEED_MBPS"), resultSet.getBoolean("IS_FIBER_OPTIC"),
+                    resultSet.getBoolean("HAS_ROUTER"));
 
-            return internetSubscription;
+            internetsub.setPrice(internetsub.calculateCost());
+
+            return internetsub;
         }
         catch (SQLException e) {
             throw new RuntimeException(e);
@@ -80,12 +85,15 @@ public class InternetSubscriptionDAO {
 
             List<InternetSubscription> internetSubscriptions = new ArrayList<>();
             while (rs.next()) {
-                InternetSubscription internetSubscription = new InternetSubscription(
+                InternetSubscription internetsub = new InternetSubscription(
                         rs.getInt("SUBSCRIPTION_ID"), rs.getString("NAME"),
-                        rs.getInt("CONTRACT_LENGTH"), rs.getInt("PRICE"),
-                        rs.getInt("DOWNLOAD_SPEED_MBPS"), rs.getInt("UPLOAD_SPEED_MBPS"),
-                        rs.getBoolean("IS_FIBER_OPTIC"), rs.getBoolean("HAS_ROUTER"));
-                internetSubscriptions.add(internetSubscription);
+                        rs.getInt("CONTRACT_LENGTH"), rs.getInt("DOWNLOAD_SPEED_MBPS"),
+                        rs.getInt("UPLOAD_SPEED_MBPS"), rs.getBoolean("IS_FIBER_OPTIC"),
+                        rs.getBoolean("HAS_ROUTER"));
+
+                internetsub.setPrice(internetsub.calculateCost());
+
+                internetSubscriptions.add(internetsub);
             }
             return internetSubscriptions;
         }

@@ -9,7 +9,7 @@ import java.util.List;
 @RestController
 @RequestMapping("api/tvset")
 public class TelevisionSetController {
-    record TelevisionSetRequest(String name, int price, double diagonalInches, String resolution, boolean isSmartTv ) {};
+    record TelevisionSetRequest(String name, double diagonalInches, String resolution, boolean isSmartTv ) {};
 
     @GetMapping List<TelevisionSet> findAll() {return TelevisionSetDAO.findAll();}
 
@@ -20,12 +20,12 @@ public class TelevisionSetController {
 
     @PostMapping
     public TelevisionSet create(@RequestBody TelevisionSetRequest req) {
-        return TelevisionSetDAO.create(req.name, req.price, req.diagonalInches, req.resolution, req.isSmartTv);
+        return TelevisionSetDAO.create(req.name, req.diagonalInches, req.resolution, req.isSmartTv);
     }
 
     @PutMapping("/{deviceID}")
     public void update(@PathVariable int deviceID, @RequestBody TelevisionSetRequest req) {
-        TelevisionSet tvset = new TelevisionSet(deviceID, req.name, req.price, req.diagonalInches, req.resolution, req.isSmartTv);
+        TelevisionSet tvset = new TelevisionSet(deviceID, req.name, req.diagonalInches, req.resolution, req.isSmartTv);
         TelevisionSetDAO.update(tvset);
     }
 

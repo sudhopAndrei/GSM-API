@@ -8,19 +8,14 @@ public class InternetSubscription extends TelecomSubscription implements Warrant
     private boolean isFiberOptic;
     private boolean hasRouter;
 
-    public InternetSubscription(int subscriptionID, String name, int contractLength, int price,
+    public InternetSubscription(int subscriptionID, String name, int contractLength,
                                 int downloadSpeedMbps, int uploadSpeedMbps, boolean isFiberOptic, boolean hasRouter) {
 
-        super(subscriptionID, name, contractLength, price);
+        super(subscriptionID, name, contractLength);
         this.downloadSpeedMbps = downloadSpeedMbps;
         this.uploadSpeedMbps = uploadSpeedMbps;
         this.isFiberOptic = isFiberOptic;
         this.hasRouter = hasRouter;
-    }
-
-    public InternetSubscription(int subscriptionID, String name, int contractLength,
-                                int downloadSpeedMbps, int uploadSpeedMbps, boolean isFiberOptic, boolean hasRouter) {
-        this(subscriptionID, name, contractLength, 2, downloadSpeedMbps, uploadSpeedMbps, isFiberOptic, hasRouter);
     }
 
     @Override
@@ -58,13 +53,6 @@ public class InternetSubscription extends TelecomSubscription implements Warrant
 
         return warrantyMonths;
     }
-
-    //gettere
-    @Override
-    public int getBillableID() {return this.getSubscriptionID();}
-
-    @Override
-    public String getTypeIdentifier() {return "InternetSubscription";}
 
     public int getDownloadSpeedMbps() {return this.downloadSpeedMbps;}
     public int getUploadSpeedMbps() {return this.uploadSpeedMbps;}

@@ -9,7 +9,7 @@ import java.util.List;
 @RestController
 @RequestMapping( "/api/tvsub")
 public class TVSubscriptionController {
-    record TVSubscriptionRecord(String name, int contractLength, int price,
+    record TVSubscriptionRecord(String name, int contractLength,
                                 int numberOfChannels, boolean hasHDChannels, boolean hasStreamingService) {}
 
     @GetMapping
@@ -22,13 +22,13 @@ public class TVSubscriptionController {
 
     @PostMapping
     public TVSubscription create(@RequestBody TVSubscriptionRecord req) {
-        return TVSubscriptionDAO.create(req.name, req.contractLength, req.price, req.numberOfChannels, req.hasHDChannels,
+        return TVSubscriptionDAO.create(req.name, req.contractLength, req.numberOfChannels, req.hasHDChannels,
                 req.hasStreamingService);
     }
 
     @PutMapping("/{subscriptionID}")
     public void update(@PathVariable int subscriptionID, @RequestBody TVSubscriptionRecord req) {
-        TVSubscription tvsub = new TVSubscription(subscriptionID, req.name, req.contractLength, req.price, req.numberOfChannels, req.hasHDChannels,
+        TVSubscription tvsub = new TVSubscription(subscriptionID, req.name, req.contractLength, req.numberOfChannels, req.hasHDChannels,
                 req.hasStreamingService);
         TVSubscriptionDAO.update(tvsub);
     }

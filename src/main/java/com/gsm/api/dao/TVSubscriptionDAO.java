@@ -11,20 +11,19 @@ public class TVSubscriptionDAO {
     private TVSubscriptionDAO() {}
 
     //insert
-    public static TVSubscription create(String name, int contractLength, int price,
+    public static TVSubscription create(String name, int contractLength,
                                         int numberOfChannels, boolean hasHDChannels,
                                         boolean hasStreamingService) {
         try (Connection connection = DatabaseManager.getConnection()) {
     PreparedStatement statement = connection.prepareStatement(
-                    "INSERT INTO TV_SUBSCRIPTIONS (NAME, CONTRACT_LENGTH, PRICE, " +
+                    "INSERT INTO TV_SUBSCRIPTIONS (NAME, CONTRACT_LENGTH," +
                             "NUMBER_OF_CHANNELS, HAS_HD_CHANNELS, HAS_STREAMING_SERVICE) " +
-                            "VALUES (?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+                            "VALUES (?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, name);
             statement.setInt(2, contractLength);
-            statement.setInt(3, price);
-            statement.setInt(4, numberOfChannels);
-            statement.setBoolean(5, hasHDChannels);
-            statement.setBoolean(6, hasStreamingService);
+            statement.setInt(3, numberOfChannels);
+            statement.setBoolean(4, hasHDChannels);
+            statement.setBoolean(5, hasStreamingService);
             statement.executeUpdate();
 
             ResultSet rs = statement.getGeneratedKeys();
@@ -34,8 +33,12 @@ public class TVSubscriptionDAO {
                 subscriptionID = rs.getInt(1);
             }
 
-            return new TVSubscription(subscriptionID, name, contractLength, price,
+            TVSubscription tvsub = new TVSubscription(subscriptionID, name, contractLength,
                     numberOfChannels, hasHDChannels, hasStreamingService);
+
+            tvsub.setPrice(tvsub.calculateCost());
+
+            return tvsub;
         }
         catch (SQLException e) {
             throw new RuntimeException(e);
@@ -55,13 +58,14 @@ public class TVSubscriptionDAO {
 
             if (resultSet.next() == false) return null;
 
-            TVSubscription tvSubscription = new TVSubscription(
+            TVSubscription tvsub = new TVSubscription(
                     resultSet.getInt("SUBSCRIPTION_ID"), resultSet.getString("NAME"),
-                    resultSet.getInt("CONTRACT_LENGTH"), resultSet.getInt("PRICE"),
-                    resultSet.getInt("NUMBER_OF_CHANNELS"), resultSet.getBoolean("HAS_HD_CHANNELS"),
-                    resultSet.getBoolean("HAS_STREAMING_SERVICE"));
+                    resultSet.getInt("CONTRACT_LENGTH"), resultSet.getInt("NUMBER_OF_CHANNELS"),
+                    resultSet.getBoolean("HAS_HD_CHANNELS"), resultSet.getBoolean("HAS_STREAMING_SERVICE"));
 
-            return tvSubscription;
+            tvsub.setPrice(tvsub.calculateCost());
+
+            return tvsub;
         }
         catch (SQLException e) {
             throw new RuntimeException(e);
@@ -79,12 +83,14 @@ public class TVSubscriptionDAO {
 
             List<TVSubscription> tvSubscriptions = new ArrayList<>();
             while (rs.next()) {
-                TVSubscription tvSubscription = new TVSubscription(
+                TVSubscription tvsub = new TVSubscription(
                         rs.getInt("SUBSCRIPTION_ID"), rs.getString("NAME"),
-                        rs.getInt("CONTRACT_LENGTH"), rs.getInt("PRICE"),
-                        rs.getInt("NUMBER_OF_CHANNELS"), rs.getBoolean("HAS_HD_CHANNELS"),
-                        rs.getBoolean("HAS_STREAMING_SERVICE"));
-                tvSubscriptions.add(tvSubscription);
+                        rs.getInt("CONTRACT_LENGTH"), rs.getInt("NUMBER_OF_CHANNELS"),
+                        rs.getBoolean("HAS_HD_CHANNELS"), rs.getBoolean("HAS_STREAMING_SERVICE"));
+
+                tvsub.setPrice(tvsub.calculateCost());
+
+                tvSubscriptions.add(tvsub);
             }
             return tvSubscriptions;
         }

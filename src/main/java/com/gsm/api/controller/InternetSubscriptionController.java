@@ -9,7 +9,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/internetsub")
 public class InternetSubscriptionController {
-    private record InternetSubscriptionRecord(String name, int contractLength, int price,
+    private record InternetSubscriptionRecord(String name, int contractLength,
                                               int downloadSpeedMbps, int uploadSpeedMbps, boolean isFiberOptic, boolean hasRouter) {}
 
     @GetMapping
@@ -22,13 +22,13 @@ public class InternetSubscriptionController {
 
     @PostMapping
     public InternetSubscription create(@RequestBody InternetSubscriptionRecord req) {
-        return InternetSubscriptionDAO.create(req.name, req.contractLength, req.price, req.downloadSpeedMbps,
+        return InternetSubscriptionDAO.create(req.name, req.contractLength, req.downloadSpeedMbps,
                 req.uploadSpeedMbps, req.isFiberOptic, req.hasRouter);
     }
 
     @PutMapping("/{subscriptionID}")
     public void update(@PathVariable int subscriptionID, @RequestBody InternetSubscriptionRecord req) {
-        InternetSubscription internetsub = new InternetSubscription(subscriptionID, req.name, req.contractLength, req.price, req.downloadSpeedMbps,
+        InternetSubscription internetsub = new InternetSubscription(subscriptionID, req.name, req.contractLength, req.downloadSpeedMbps,
                 req.uploadSpeedMbps, req.isFiberOptic, req.hasRouter);
         InternetSubscriptionDAO.update(internetsub);
     }

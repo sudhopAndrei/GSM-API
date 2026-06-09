@@ -7,19 +7,14 @@ public class MobileSubscription extends TelecomSubscription {
     private int internationalMinutes;
     private boolean hasRoaming;
 
-    public MobileSubscription(int subscriptionID, String name, int contractLength, int price,
+    public MobileSubscription(int subscriptionID, String name, int contractLength,
                               int nationalMinutes, int networkGB, int internationalMinutes, boolean hasRoaming) {
 
-        super(subscriptionID, name, contractLength, price);
+        super(subscriptionID, name, contractLength);
         this.nationalMinutes = nationalMinutes;
         this.networkGB = networkGB;
         this.internationalMinutes = internationalMinutes;
         this.hasRoaming = hasRoaming;
-    }
-
-    public MobileSubscription(int subscriptionID, String name, int contractLength,
-                       int nationalMinutes, int networkGB, int internationalMinutes, boolean hasRoaming) {
-        this(subscriptionID, name, contractLength, 2, nationalMinutes, networkGB, internationalMinutes, hasRoaming);
     }
 
     @Override
@@ -44,13 +39,6 @@ public class MobileSubscription extends TelecomSubscription {
 
         return serviceCost;
     }
-
-    //gettere
-    @Override
-    public int getBillableID() {return this.getSubscriptionID();}
-
-    @Override
-    public String getTypeIdentifier() {return "MobileSubscription";}
 
     public int getNationalMinutes() {return this.nationalMinutes;}
     public int getNetworkGB() {return this.networkGB;}

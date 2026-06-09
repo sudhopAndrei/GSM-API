@@ -11,17 +11,16 @@ public class MobilePhoneDAO {
     private MobilePhoneDAO() {}
 
     //insert
-    public static MobilePhone create(String name, int price,
+    public static MobilePhone create(String name,
                                      int storageSpace, String color, boolean hasESim) {
         try (Connection connection = DatabaseManager.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(
-                    "INSERT INTO MOBILE_PHONES (NAME, PRICE, STORAGE_SPACE, COLOR, HAS_ESIM) " +
-                            "VALUES (?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+                    "INSERT INTO MOBILE_PHONES (NAME, STORAGE_SPACE, COLOR, HAS_ESIM) " +
+                            "VALUES (?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, name);
-            statement.setInt(2, price);
-            statement.setInt(3, storageSpace);
-            statement.setString(4, color);
-            statement.setBoolean(5, hasESim);
+            statement.setInt(2, storageSpace);
+            statement.setString(3, color);
+            statement.setBoolean(4, hasESim);
             statement.executeUpdate();
 
             ResultSet rs = statement.getGeneratedKeys();
@@ -30,7 +29,10 @@ public class MobilePhoneDAO {
                 deviceID = rs.getInt(1);
             }
 
-            return new MobilePhone(deviceID, name, price, storageSpace, color, hasESim);
+            MobilePhone phone = new MobilePhone(deviceID, name, storageSpace, color, hasESim);
+            phone.setPrice(phone.calculateCost());
+
+            return phone;
         }
         catch (SQLException e) {
             throw new RuntimeException(e);
@@ -49,11 +51,13 @@ public class MobilePhoneDAO {
 
             if (resultSet.next() == false) return null;
 
-            MobilePhone mobilePhone = new MobilePhone(
-                    resultSet.getInt("DEVICE_ID"), resultSet.getString("NAME"), resultSet.getInt("PRICE"),
+            MobilePhone phone = new MobilePhone(
+                    resultSet.getInt("DEVICE_ID"), resultSet.getString("NAME"),
                     resultSet.getInt("STORAGE_SPACE"), resultSet.getString("COLOR"), resultSet.getBoolean("HAS_ESIM"));
 
-            return mobilePhone;
+            phone.setPrice(phone.calculateCost());
+
+            return phone;
         }
         catch (SQLException e) {
             throw new RuntimeException(e);
@@ -70,10 +74,11 @@ public class MobilePhoneDAO {
 
             List<MobilePhone> mobilePhones = new ArrayList<>();
             while (rs.next()) {
-                MobilePhone mobilePhone = new MobilePhone(
-                        rs.getInt("DEVICE_ID"), rs.getString("NAME"), rs.getInt("PRICE"),
+                MobilePhone phone = new MobilePhone(
+                        rs.getInt("DEVICE_ID"), rs.getString("NAME"),
                         rs.getInt("STORAGE_SPACE"), rs.getString("COLOR"), rs.getBoolean("HAS_ESIM"));
-                mobilePhones.add(mobilePhone);
+
+                phone.setPrice(phone.calculateCost());
             }
             return mobilePhones;
         }

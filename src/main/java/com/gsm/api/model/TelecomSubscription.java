@@ -8,15 +8,10 @@ public abstract class TelecomSubscription implements Billable {
     private int contractLength;
     private int price;
 
-    protected TelecomSubscription(int subscriptionID, String name, int contractLength, int price) {
+    protected TelecomSubscription(int subscriptionID, String name, int contractLength) {
         this.subscriptionID = subscriptionID;
         this.name = name;
         this.contractLength = contractLength;
-        this.price = price;
-    }
-
-    protected TelecomSubscription(int subscriptionID, String name, int contractLength) {
-        this(subscriptionID, name, contractLength, 2);
     }
 
     //gettere
