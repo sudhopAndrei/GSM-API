@@ -65,7 +65,7 @@ public class MobileSubscriptionDAO {
                     resultSet.getInt("NETWORK_GB"), resultSet.getInt("INTERNATIONAL_MINUTES"),
                     resultSet.getBoolean("HAS_ROAMING"));
 
-            mobilesub.setPrice(mobilesub.calculateCost());
+            mobilesub.setPrice(resultSet.getInt("PRICE"));
 
             return mobilesub;
         }
@@ -91,7 +91,8 @@ public class MobileSubscriptionDAO {
                         rs.getInt("NETWORK_GB"), rs.getInt("INTERNATIONAL_MINUTES"),
                         rs.getBoolean("HAS_ROAMING"));
 
-                mobilesub.setPrice(mobilesub.calculateCost());
+                mobilesub.setPrice(rs.getInt("PRICE"));
+
                 mobileSubscriptions.add(mobilesub);
             }
             return mobileSubscriptions;

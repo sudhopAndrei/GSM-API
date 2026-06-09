@@ -54,7 +54,7 @@ public class TelevisionSetDAO {
                     resultSet.getInt("DEVICE_ID"), resultSet.getString("NAME"),
                     resultSet.getDouble("DIAGONAL_INCHES"), resultSet.getString("RESOLUTION"), resultSet.getBoolean("IS_SMART_TV"));
 
-            tvset.setPrice(tvset.calculateCost());
+            tvset.setPrice(resultSet.getInt("PRICE"));
 
             return tvset;
         }
@@ -76,9 +76,10 @@ public class TelevisionSetDAO {
                 TelevisionSet tvset = new TelevisionSet(
                         rs.getInt("DEVICE_ID"), rs.getString("NAME"),
                         rs.getDouble("DIAGONAL_INCHES"), rs.getString("RESOLUTION"), rs.getBoolean("IS_SMART_TV"));
-                televisionSets.add(tvset);
 
-                tvset.setPrice(tvset.calculateCost());
+                tvset.setPrice(rs.getInt("PRICE"));
+
+                televisionSets.add(tvset);
             }
             return televisionSets;
         }

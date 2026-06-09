@@ -16,6 +16,8 @@ public class InternetSubscription extends TelecomSubscription implements Warrant
         this.uploadSpeedMbps = uploadSpeedMbps;
         this.isFiberOptic = isFiberOptic;
         this.hasRouter = hasRouter;
+
+        this.setPrice(30);
     }
 
     @Override

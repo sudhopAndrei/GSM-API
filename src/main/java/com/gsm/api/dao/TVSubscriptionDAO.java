@@ -63,7 +63,7 @@ public class TVSubscriptionDAO {
                     resultSet.getInt("CONTRACT_LENGTH"), resultSet.getInt("NUMBER_OF_CHANNELS"),
                     resultSet.getBoolean("HAS_HD_CHANNELS"), resultSet.getBoolean("HAS_STREAMING_SERVICE"));
 
-            tvsub.setPrice(tvsub.calculateCost());
+            tvsub.setPrice(resultSet.getInt("PRICE"));
 
             return tvsub;
         }
@@ -88,7 +88,7 @@ public class TVSubscriptionDAO {
                         rs.getInt("CONTRACT_LENGTH"), rs.getInt("NUMBER_OF_CHANNELS"),
                         rs.getBoolean("HAS_HD_CHANNELS"), rs.getBoolean("HAS_STREAMING_SERVICE"));
 
-                tvsub.setPrice(tvsub.calculateCost());
+                tvsub.setPrice(rs.getInt("PRICE"));
 
                 tvSubscriptions.add(tvsub);
             }

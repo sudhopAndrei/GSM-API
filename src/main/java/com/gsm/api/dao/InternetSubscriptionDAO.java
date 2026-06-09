@@ -65,7 +65,7 @@ public class InternetSubscriptionDAO {
                     resultSet.getInt("UPLOAD_SPEED_MBPS"), resultSet.getBoolean("IS_FIBER_OPTIC"),
                     resultSet.getBoolean("HAS_ROUTER"));
 
-            internetsub.setPrice(internetsub.calculateCost());
+            internetsub.setPrice(resultSet.getInt("PRICE"));
 
             return internetsub;
         }
@@ -91,7 +91,7 @@ public class InternetSubscriptionDAO {
                         rs.getInt("UPLOAD_SPEED_MBPS"), rs.getBoolean("IS_FIBER_OPTIC"),
                         rs.getBoolean("HAS_ROUTER"));
 
-                internetsub.setPrice(internetsub.calculateCost());
+                internetsub.setPrice(rs.getInt("PRICE"));
 
                 internetSubscriptions.add(internetsub);
             }

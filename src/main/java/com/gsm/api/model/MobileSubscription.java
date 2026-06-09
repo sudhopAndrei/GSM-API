@@ -15,6 +15,8 @@ public class MobileSubscription extends TelecomSubscription {
         this.networkGB = networkGB;
         this.internationalMinutes = internationalMinutes;
         this.hasRoaming = hasRoaming;
+
+        this.setPrice(10);
     }
 
     @Override
@@ -22,13 +24,13 @@ public class MobileSubscription extends TelecomSubscription {
         int addOn = 0;
         int serviceCost = this.getPrice();
 
-        if (nationalMinutes > 5000) {
+        if (nationalMinutes >= 5000) {
             addOn = addOn + 2;
         }
-        if (networkGB > 200) {
+        if (networkGB >= 200) {
             addOn = addOn + 5;
         }
-        if (internationalMinutes > 1000) {
+        if (internationalMinutes >= 1000) {
             addOn = addOn + 3;
         }
         if (hasRoaming == true) {

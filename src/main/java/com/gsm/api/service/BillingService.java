@@ -74,26 +74,4 @@ public class BillingService {
         person.addPurchase(purchase);
         PersonDAO.update(person);
     }
-
-
-    // de aici in jos mutat in CUSTOMER ca functie pt polimorfism
-
-    //calculeaza discount ul pentru device uri pe baza punctelor (va fi apelat doar la cumpararea device urilor)
-    // public static int calculateDiscount(int userID) {
-    //     Customer customer = PersonDAO.findById(userID);
-
-    //     int discountPercentage = 0;
-
-    //     if (customer instanceof Person p) {
-    //         discountPercentage = p.getLoyaltyPoints() / 100;
-    //     }
-
-    //     if (discountPercentage > 25) {
-    //         return 25;
-    //     }
-    //     return discountPercentage;
-    // }
-
-    //calculeaza discount ul pentru angajat in functie de vechime
-
 }

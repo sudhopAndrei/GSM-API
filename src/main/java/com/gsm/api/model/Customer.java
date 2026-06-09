@@ -7,7 +7,6 @@ import java.time.*;
 
 public abstract class Customer extends User{
     protected List<Purchase> purchases = new ArrayList<>();
-    private Map<Billable, Integer> extendedWarranties = new HashMap<>();
     private double penalties;
 
     public Customer(int userID, String name, String email, String phoneNumber, LocalDate joinDate) {
@@ -19,13 +18,8 @@ public abstract class Customer extends User{
     //adauga achizitii
     public abstract void addPurchase(Purchase purchase);
 
-    public void addWarrantyExtension(Billable item, int monthsExtended) {
-        this.extendedWarranties.put(item, monthsExtended);
-    }
-
     //gettere
     public List<Purchase> getPurchases() {return List.copyOf(purchases);}
-    public Map<Billable, Integer> getExtendedWarranties() {return Map.copyOf(this.extendedWarranties);}
     public double getPenalties() {return this.penalties;}
 
     //settere

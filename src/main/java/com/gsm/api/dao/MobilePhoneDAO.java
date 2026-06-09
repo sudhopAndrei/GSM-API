@@ -55,7 +55,7 @@ public class MobilePhoneDAO {
                     resultSet.getInt("DEVICE_ID"), resultSet.getString("NAME"),
                     resultSet.getInt("STORAGE_SPACE"), resultSet.getString("COLOR"), resultSet.getBoolean("HAS_ESIM"));
 
-            phone.setPrice(phone.calculateCost());
+            phone.setPrice(resultSet.getInt("PRICE"));
 
             return phone;
         }
@@ -78,7 +78,9 @@ public class MobilePhoneDAO {
                         rs.getInt("DEVICE_ID"), rs.getString("NAME"),
                         rs.getInt("STORAGE_SPACE"), rs.getString("COLOR"), rs.getBoolean("HAS_ESIM"));
 
-                phone.setPrice(phone.calculateCost());
+                phone.setPrice(rs.getInt("PRICE"));
+
+                mobilePhones.add(phone);
             }
             return mobilePhones;
         }

@@ -12,6 +12,8 @@ public class TelevisionSet extends Device {
         this.diagonalInches = diagonalInches;
         this.resolution = resolution;
         this.isSmartTv = isSmartTv;
+
+        this.setPrice(1000);
     }
 
     @Override

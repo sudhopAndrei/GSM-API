@@ -12,6 +12,8 @@ public class TVSubscription extends TelecomSubscription {
         this.numberOfChannels = numberOfChannels;
         this.hasHDChannels = hasHDChannels;
         this.hasStreamingService = hasStreamingService;
+
+        this.setPrice(20);
     }
 
     @Override

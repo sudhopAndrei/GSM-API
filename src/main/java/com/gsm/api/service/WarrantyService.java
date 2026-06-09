@@ -37,40 +37,6 @@ public class WarrantyService {
         return warranties;
     }
 
-    //extindem garantia unui produs cu un numar de luni
-    public static void extendedWarranty(int userID, int itemIdentifier, int monthsExtended) {
-        Customer customer = PersonDAO.findById(userID);
-
-        for (Purchase purchase : customer.getPurchases()) {
-            Billable item = purchase.getItem();
-            if (item instanceof Warrantable) {
-                if (item instanceof Device device && device.getDeviceID() == itemIdentifier) {
-                    customer.addWarrantyExtension(device, monthsExtended);
-                    break;
-                } else if (item instanceof InternetSubscription subscription && subscription.getSubscriptionID() == itemIdentifier) {
-                    customer.addWarrantyExtension(subscription, monthsExtended);
-                    break;
-                }
-            }
-        }
-    }
-
-    //anuleaza o garantie
-    public static void cancelWarranty(int userID, int itemIdentifier) {
-        Customer customer = PersonDAO.findById(userID);
-
-        for (Purchase purchase : customer.getPurchases()) {
-            Billable item = purchase.getItem();
-            if (item instanceof Warrantable) {
-                if ((item instanceof Device device && device.getDeviceID() == itemIdentifier) ||
-                        (item instanceof InternetSubscription subscription && subscription.getSubscriptionID() == itemIdentifier)) {
-                    customer.addWarrantyExtension(item, -100000);
-                    break;
-                }
-            }
-        }
-    }
-
     // returneaza numarul de luni ramase din garantie sau -1 daca a expirat
     public static int remainingWarrantyMonths(int userID, int itemIdentifier) {
         Customer customer = PersonDAO.findById(userID);

@@ -12,6 +12,8 @@ public class MobilePhone extends Device{
         this.storageSpace = storageSpace;
         this.color = color;
         this.hasESim = hasESim;
+
+        this.setPrice(500);
     }
 
     @Override
