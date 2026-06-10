@@ -14,12 +14,13 @@ public class TelevisionSetDAO {
     public static TelevisionSet create(String name, double diagonalInches, String resolution, boolean isSmartTv) {
         try (Connection connection = DatabaseManager.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(
-                    "INSERT INTO TELEVISION_SETS (NAME, DIAGONAL_INCHES, RESOLUTION, IS_SMART_TV) " +
-                            "VALUES (?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+                    "INSERT INTO TELEVISION_SETS (NAME, PRICE, DIAGONAL_INCHES, RESOLUTION, IS_SMART_TV) " +
+                            "VALUES (?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, name);
-            statement.setDouble(2, diagonalInches);
-            statement.setString(3, resolution);
-            statement.setBoolean(4, isSmartTv);
+            statement.setInt(2, 0);
+            statement.setDouble(3, diagonalInches);
+            statement.setString(4, resolution);
+            statement.setBoolean(5, isSmartTv);
             statement.executeUpdate();
 
             ResultSet rs = statement.getGeneratedKeys();
@@ -30,6 +31,8 @@ public class TelevisionSetDAO {
 
             TelevisionSet tvset = new TelevisionSet(deviceID, name, diagonalInches, resolution, isSmartTv);
             tvset.setPrice(tvset.calculateCost());
+
+            update(tvset);
 
             return tvset;
         }

@@ -15,12 +15,13 @@ public class MobilePhoneDAO {
                                      int storageSpace, String color, boolean hasESim) {
         try (Connection connection = DatabaseManager.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(
-                    "INSERT INTO MOBILE_PHONES (NAME, STORAGE_SPACE, COLOR, HAS_ESIM) " +
-                            "VALUES (?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+                    "INSERT INTO MOBILE_PHONES (NAME, PRICE, STORAGE_SPACE, COLOR, HAS_ESIM) " +
+                            "VALUES (?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, name);
-            statement.setInt(2, storageSpace);
-            statement.setString(3, color);
-            statement.setBoolean(4, hasESim);
+            statement.setInt(2, 0);
+            statement.setInt(3, storageSpace);
+            statement.setString(4, color);
+            statement.setBoolean(5, hasESim);
             statement.executeUpdate();
 
             ResultSet rs = statement.getGeneratedKeys();
@@ -32,6 +33,7 @@ public class MobilePhoneDAO {
             MobilePhone phone = new MobilePhone(deviceID, name, storageSpace, color, hasESim);
             phone.setPrice(phone.calculateCost());
 
+            update(phone);
             return phone;
         }
         catch (SQLException e) {

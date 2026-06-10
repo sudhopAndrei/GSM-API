@@ -13,7 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/warranty")
 public class WarrantyController {
-    @GetMapping("/activewaranties/{userID}")
+    @GetMapping("/activewarranties/{userID}")
     public List<Billable> activeWarranties(@PathVariable int userID) {
         return WarrantyService.activeWarranties(userID);
     }

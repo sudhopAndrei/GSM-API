@@ -16,15 +16,16 @@ public class InternetSubscriptionDAO {
                                               boolean isFiberOptic, boolean hasRouter) {
         try (Connection connection = DatabaseManager.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(
-                    "INSERT INTO INTERNET_SUBSCRIPTIONS (NAME, CONTRACT_LENGTH, " +
+                    "INSERT INTO INTERNET_SUBSCRIPTIONS (NAME, PRICE, CONTRACT_LENGTH, " +
                             "DOWNLOAD_SPEED_MBPS, UPLOAD_SPEED_MBPS, IS_FIBER_OPTIC, HAS_ROUTER) " +
-                            "VALUES (?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+                            "VALUES (?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, name);
-            statement.setInt(2, contractLength);
-            statement.setInt(3, downloadSpeedMbps);
-            statement.setInt(4, uploadSpeedMbps);
-            statement.setBoolean(5, isFiberOptic);
-            statement.setBoolean(6, hasRouter);
+            statement.setInt(2, 0);
+            statement.setInt(3, contractLength);
+            statement.setInt(4, downloadSpeedMbps);
+            statement.setInt(5, uploadSpeedMbps);
+            statement.setBoolean(6, isFiberOptic);
+            statement.setBoolean(7, hasRouter);
             statement.executeUpdate();
 
             ResultSet rs = statement.getGeneratedKeys();
@@ -39,6 +40,7 @@ public class InternetSubscriptionDAO {
 
             internetsub.setPrice(internetsub.calculateCost());
 
+            update(internetsub);
             return internetsub;
         }
         catch (SQLException e) {

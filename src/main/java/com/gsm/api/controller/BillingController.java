@@ -32,7 +32,7 @@ public class BillingController {
         return BillingService.totalSpent(userID);
     }
 
-    @GetMapping("/reedeempoints/{userID}/{numberOfPoints}")
+    @GetMapping("/redeempoints/{userID}/{numberOfPoints}")
     public int redeemPoints(@PathVariable int userID, @PathVariable int numberOfPoints) {
         return BillingService.redeemPoints(userID, numberOfPoints);
     }

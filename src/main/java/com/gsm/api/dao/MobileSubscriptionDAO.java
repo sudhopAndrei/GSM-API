@@ -16,15 +16,16 @@ public class MobileSubscriptionDAO {
                                             int internationalMinutes, boolean hasRoaming) {
         try (Connection connection = DatabaseManager.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(
-                    "INSERT INTO MOBILE_SUBSCRIPTIONS (NAME, CONTRACT_LENGTH, " +
+                    "INSERT INTO MOBILE_SUBSCRIPTIONS (NAME, PRICE, CONTRACT_LENGTH, " +
                             "NATIONAL_MINUTES, NETWORK_GB, INTERNATIONAL_MINUTES, HAS_ROAMING) " +
-                            "VALUES (?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+                            "VALUES (?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, name);
-            statement.setInt(2, contractLength);
-            statement.setInt(3, nationalMinutes);
-            statement.setInt(4, networkGB);
-            statement.setInt(5, internationalMinutes);
-            statement.setBoolean(6, hasRoaming);
+            statement.setInt(2, 0);
+            statement.setInt(3, contractLength);
+            statement.setInt(4, nationalMinutes);
+            statement.setInt(5, networkGB);
+            statement.setInt(6, internationalMinutes);
+            statement.setBoolean(7, hasRoaming);
             statement.executeUpdate();
 
             ResultSet rs = statement.getGeneratedKeys();
@@ -39,6 +40,7 @@ public class MobileSubscriptionDAO {
 
             mobilesub.setPrice(mobilesub.calculateCost());
 
+            update(mobilesub);
             return mobilesub;
         }
         catch (SQLException e) {
